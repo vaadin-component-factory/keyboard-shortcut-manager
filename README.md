@@ -1,6 +1,6 @@
-# keyboard-shortcut-manager
+# VCF Keyboard Shortcut Manager
 
-[![npm version](https://badgen.net/npm/v/@vaadin-component-factory/vcf-element)](https://www.npmjs.com/package/@vaadin-component-factory/vcf-element) [![Published on Vaadin Directory](https://img.shields.io/badge/Vaadin%20Directory-published-00b4f0.svg)](https://vaadin.com/directory/component/vaadin-component-factoryvcf-element)
+[![npm version](https://badgen.net/npm/v/@vaadin-component-factory/keyboard-shortcut-manager)](https://www.npmjs.com/package/@vaadin-component-factory/keyboard-shortcut-manager) [![Published on Vaadin Directory](https://img.shields.io/badge/Vaadin%20Directory-published-00b4f0.svg)](https://vaadin.com/directory/component/vaadin-component-factorykeyboard-shortcut-manager)
 
 A modern library for managing keyboard shortcuts in a [Vaadin](https://vaadin.com) application (or any framework).
 

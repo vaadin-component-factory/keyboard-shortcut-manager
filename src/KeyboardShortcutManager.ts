@@ -52,6 +52,7 @@ export class KeyboardShortcutManager {
     });
     this.shortcuts = this.shortcuts.concat(shortcuts);
     if (this.helpDialog) this.helpDialog.shortcuts = this.shortcuts;
+    this.createKeyBindingMaps(this.shortcuts);
   }
 
   subscribe() {
@@ -83,7 +84,13 @@ export class KeyboardShortcutManager {
   }
 
   private parseKeyBinding(keyBinding: string) {
-    return keyBinding.replace(/\s+/g, '').trim();
+    if (keyBinding.includes(' ')) {
+      console.warn(
+        `"${keyBinding}" | This keybinding contains spaces which are used for keybindings with sequential button presses.
+        Refer to keybinding syntax for more information: https://github.com/jamiebuilds/tinykeys#keybinding-syntax`.trim()
+      );
+    }
+    return keyBinding;
   }
 
   private parseShortcuts(shortcuts: KeyboardShortcut[]) {

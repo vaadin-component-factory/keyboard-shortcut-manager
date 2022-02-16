@@ -162,7 +162,7 @@ export class DemoView extends LitElement {
             KeyboardShortcutManager,
             KeyboardShortcutUtils,
             KeyboardShortcut
-          } from '@vaadin-component-factory/vcf-keyboard-shortcut-manager';
+          } from '@vaadin-component-factory/keyboard-shortcut-manager';
 
           window.addEventListener('help-dialog', () => ksm.toggleHelpDialog());
 

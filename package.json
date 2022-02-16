@@ -1,5 +1,5 @@
 {
-  "name": "vcf-keyboard-shortcut-manager",
+  "name": "@vaadin-component-factory/keyboard-shortcut-manager",
   "version": "1.0.0",
   "main": "out-tsc/src/index.js",
   "module": "out-tsc/src/index.js",

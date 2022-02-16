@@ -1,14 +1,22 @@
-# vcf-keyboard-shortcut-manager
+# keyboard-shortcut-manager
 
 [![npm version](https://badgen.net/npm/v/@vaadin-component-factory/vcf-element)](https://www.npmjs.com/package/@vaadin-component-factory/vcf-element) [![Published on Vaadin Directory](https://img.shields.io/badge/Vaadin%20Directory-published-00b4f0.svg)](https://vaadin.com/directory/component/vaadin-component-factoryvcf-element)
 
-A modern library implemented in TypeScript allowing you to manage keyboard shortcuts in a Vaadin (or any framework) web application.
+A modern library for managing keyboard shortcuts in a [Vaadin](https://vaadin.com) application (or any framework).
 
 - Dispatch custom events from keyboard shortcuts.
 - Bind multiple keyboard commands to a single event listener.
 - Easily create simple keyboard shortcut help dialog/popup.
+- Compatible with web components and [Shadow DOM](https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_shadow_DOM).
+- Implemented in [TypeScript](https://www.typescriptlang.org/).
 
-Internally this project uses the [Tinykeys](https://github.com/jamiebuilds/tinykeys) library.
+This is a wrapper for the [Tinykeys](https://github.com/jamiebuilds/tinykeys) library.
+
+## Install
+
+```sh
+npm i @vaadin-component-factory/vcf-keyboard-chortcut-manager
+```
 
 ## Usage
 
@@ -17,7 +25,7 @@ Create an array of `KeyboardShortcut` definitions:
 ```ts
 const shortcuts: KeyboardShortcut = [
   {
-    keyBinding: this.helpCommand,
+    keyBinding: 'Control+Shift+?',
     handler: 'help-dialog',
     description: 'Opens the help dialog.'
   }
@@ -27,25 +35,15 @@ const shortcuts: KeyboardShortcut = [
 Then create a `KeyboardShortcutManager` instance and `subscribe` your shortcuts to activate them:
 
 ```ts
-const ksm = new KeyboardShortcutManager({ shortcuts, root: this.shadowRoot, helpDialog: true });
-
-this.ksm.add();
+const ksm = new KeyboardShortcutManager({ shortcuts, helpDialog: true });
 
 ksm.subscribe();
 ```
 
-[Keys and Codes](https://github.com/jamiebuilds/tinykeys#commonly-used-keys-and-codes)
+## Keybinding Syntax
 
-## Install
+Refer to the following links for more information on the keybinding syntax:
 
-**NPM**
+- [Keys and Codes](https://github.com/jamiebuilds/tinykeys#commonly-used-keys-and-codes)
 
-```
-npm i @vaadin-component-factory/vcf-keyboard-chortcut-manager
-```
-
-**Yarn**
-
-```
-yarn add @vaadin-component-factory/vcf-keyboard-chortcut-manager
-```
+- [Keybinding Syntax](https://github.com/jamiebuilds/tinykeys#keybinding-syntax)

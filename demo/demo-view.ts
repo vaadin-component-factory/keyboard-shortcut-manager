@@ -265,7 +265,7 @@ export class DemoView extends LitElement {
 
   private onHelp = () => this.ksm.toggleHelpDialog();
 
-  private onDocs = () => (location.href = '/docs/');
+  private onDocs = () => (location.href = '/');
 
   private onInput = (command: Command) => {
     return (e: Event) => {
@@ -280,11 +280,11 @@ export class DemoView extends LitElement {
   };
 }
 
+type MappedDemoView = { [key in Command]: string };
+
 enum Command {
   help = 'helpCommand',
+  clear = 'clearCommand',
   increment = 'incrementCommand',
-  decrement = 'decrementCommand',
-  clear = 'clearCommand'
+  decrement = 'decrementCommand'
 }
-
-type MappedDemoView = { [key in Command]: string };

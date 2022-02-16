@@ -16,6 +16,13 @@
     "url": "https://github.com/vaadin-component-factory/keyboard-shortcut-manager",
     "type": "git"
   },
+  "keywords": [
+    "vaadin",
+    "vaadin-component-factory",
+    "keyboard-shortcuts",
+    "web-components",
+    "typescript"
+  ],
   "scripts": {
     "start": "tsc -w",
     "clean": "rimraf docs out-tsc",

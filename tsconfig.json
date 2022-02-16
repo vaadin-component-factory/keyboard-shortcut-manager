@@ -16,5 +16,5 @@
     "outDir": "out-tsc"
   },
   "include": ["src/**/*", "demo/**/*", "rollup.config.js"],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", "*/**/*.test.ts"]
 }

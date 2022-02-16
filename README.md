@@ -12,9 +12,9 @@ A modern library for managing keyboard shortcuts in a [Vaadin](https://vaadin.co
 
 This is a wrapper for the [Tinykeys](https://github.com/jamiebuilds/tinykeys) library.
 
-[DEMO ↗](https://vcf-element.netlify.com)
+[DEMO ↗](https://keyboard-shortcut-manager.netlify.com/demo/)
 
-[API ↗](https://vcf-element.netlify.com/)
+[API ↗](https://keyboard-shortcut-manager.netlify.com/)
 
 ## Install
 

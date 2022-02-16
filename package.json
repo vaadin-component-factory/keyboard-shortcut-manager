@@ -1,6 +1,6 @@
 {
   "name": "@vaadin-component-factory/keyboard-shortcut-manager",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "out-tsc/src/index.js",
   "module": "out-tsc/src/index.js",
   "types": "src/index.ts",
@@ -13,7 +13,7 @@
   },
   "license": "MIT",
   "repository": {
-    "url": "change__here",
+    "url": "https://github.com/vaadin-component-factory/keyboard-shortcut-manager",
     "type": "git"
   },
   "scripts": {

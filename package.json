@@ -1,6 +1,6 @@
 {
   "name": "@vaadin-component-factory/keyboard-shortcut-manager",
-  "version": "1.0.6",
+  "version": "1.0.7-legacy",
   "main": "out-tsc/src/index.js",
   "module": "out-tsc/src/index.js",
   "types": "src/index.ts",

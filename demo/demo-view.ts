@@ -1,14 +1,14 @@
 import { LitElement, html, css } from 'lit';
 import { customElement, property, query } from 'lit/decorators.js';
 import { KeyboardShortcutManager, KeyboardShortcutUtils } from '../src';
-import { FormLayoutResponsiveStep } from '@vaadin/form-layout';
-import { typography, spacing, sizing } from '@vaadin/vaadin-lumo-styles';
-import { TextField } from '@vaadin/text-field';
-import '@vaadin/form-layout/vaadin-form-item';
-import '@vaadin/form-layout';
-import '@vaadin/text-field';
-import '@vaadin/icons';
-import '@vaadin/icon';
+import { FormLayoutResponsiveStep } from '@vaadin/vaadin-form-layout';
+import { TextFieldElement } from '@vaadin/vaadin-text-field';
+import '@vaadin/vaadin-form-layout/vaadin-form-item';
+import '@vaadin/vaadin-form-layout';
+import '@vaadin/vaadin-lumo-styles';
+import '@vaadin/vaadin-text-field';
+import '@vaadin/vaadin-icons';
+import '@polymer/iron-icon';
 
 @customElement('demo-view')
 export class DemoView extends LitElement {
@@ -20,9 +20,6 @@ export class DemoView extends LitElement {
   @query('#code-sample') codeSample?: HTMLElement;
 
   static styles = [
-    typography,
-    spacing,
-    sizing,
     css`
       :host {
         display: block;
@@ -148,10 +145,10 @@ export class DemoView extends LitElement {
           </vaadin-form-item>
         </vaadin-form-layout>
         <vaadin-button id="docs" theme="icon tertiary" @click="${this.onDocs}">
-          <vaadin-icon icon="vaadin:code"></vaadin-icon>
+          <iron-icon icon="vaadin:code"></iron-icon>
         </vaadin-button>
         <vaadin-button id="help" theme="icon tertiary" @click="${this.onHelp}">
-          <vaadin-icon icon="vaadin:question-circle"></vaadin-icon>
+          <iron-icon icon="vaadin:question-circle"></iron-icon>
         </vaadin-button>
       </div>
       <!-- CODE SAMPLE -->
@@ -270,7 +267,7 @@ export class DemoView extends LitElement {
   private onInput = (command: Command) => {
     return (e: Event) => {
       const demo = this as MappedDemoView;
-      const field = e.target as TextField;
+      const field = e.target as TextFieldElement;
       demo[command] = field.value;
       this.requestUpdate(command);
       /* Reset Shortcuts */

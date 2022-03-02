@@ -1,8 +1,8 @@
 import { EnhancedDialog, EnhancedDialogOverlay } from '@vaadin-component-factory/vcf-enhanced-dialog';
-import { html, css, render } from 'lit';
+import { html, render } from 'lit';
 import { KeyboardShortcut } from './KeyboardShortcut';
-import { registerStyles } from '@vaadin/vaadin-themable-mixin/register-styles';
-import '@vaadin/grid';
+import { registerStyles, css } from '@vaadin/vaadin-themable-mixin/register-styles';
+import '@vaadin/vaadin-grid';
 
 export class KeyboardShortcutDialog extends EnhancedDialog {
   shortcuts: KeyboardShortcut[] = [];

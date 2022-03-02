@@ -13,8 +13,9 @@
     "noUnusedLocals": false,
     "noUnusedParameters": false,
     "experimentalDecorators": true,
+    "skipLibCheck": true,
     "outDir": "out-tsc"
   },
-  "include": ["src/**/*", "demo/**/*", "rollup.config.js"],
+  "include": ["src/**/*", "demo/**/*"],
   "exclude": ["node_modules", "*/**/*.test.ts"]
 }

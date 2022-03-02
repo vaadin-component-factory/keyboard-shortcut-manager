@@ -19,7 +19,7 @@ This is a wrapper for the [Tinykeys](https://github.com/jamiebuilds/tinykeys) li
 ## Install
 
 ```sh
-npm i @vaadin-component-factory/vcf-keyboard-chortcut-manager
+npm i @vaadin-component-factory/keyboard-chortcut-manager
 ```
 
 ## Usage

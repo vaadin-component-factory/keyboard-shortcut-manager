@@ -1,5 +1,5 @@
 import { EnhancedDialog, EnhancedDialogOverlay } from '@vaadin-component-factory/vcf-enhanced-dialog';
-import { html, render } from 'lit';
+import { html, render } from 'lit-html';
 import { KeyboardShortcut } from './KeyboardShortcut';
 import { registerStyles, css } from '@vaadin/vaadin-themable-mixin/register-styles';
 import '@vaadin/vaadin-grid';

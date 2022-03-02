@@ -1,5 +1,4 @@
-import { LitElement, html, css } from 'lit';
-import { customElement, property, query } from 'lit/decorators.js';
+import { LitElement, html, css, customElement, property, query } from 'lit-element';
 import { KeyboardShortcutManager, KeyboardShortcutUtils } from '../src';
 import { FormLayoutResponsiveStep } from '@vaadin/vaadin-form-layout';
 import { TextFieldElement } from '@vaadin/vaadin-text-field';

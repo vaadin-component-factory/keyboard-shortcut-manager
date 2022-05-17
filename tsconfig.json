@@ -5,7 +5,7 @@
     "module": "esNext",
     "target": "es2019",
     "moduleResolution": "node",
-    "strict": false,
+    "strict": true,
     "noFallthroughCasesInSwitch": true,
     "noImplicitReturns": true,
     "noImplicitAny": true,
@@ -13,6 +13,7 @@
     "noUnusedLocals": false,
     "noUnusedParameters": false,
     "experimentalDecorators": true,
+    "skipLibCheck": true,
     "outDir": "out-tsc"
   },
   "include": ["src/**/*", "demo/**/*", "rollup.config.js"],

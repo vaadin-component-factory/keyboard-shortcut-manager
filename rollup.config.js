@@ -30,7 +30,7 @@ export default {
     /** Resolve bare module imports */
     nodeResolve(),
     /** Minify JS */
-    // terser(),
+    terser(),
     /** Compile JS to a lower language target */
     babel({
       babelHelpers: 'bundled',

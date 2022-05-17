@@ -1,9 +1,9 @@
-import { LitElement, html, css } from 'lit';
+import { LitElement, html } from 'lit';
 import { customElement, property, query } from 'lit/decorators.js';
 import { KeyboardShortcutManager, KeyboardShortcutUtils } from '../src';
 import { FormLayoutResponsiveStep } from '@vaadin/form-layout';
-import { typography, spacing, sizing } from '@vaadin/vaadin-lumo-styles';
 import { TextField } from '@vaadin/text-field';
+import '@vaadin/vaadin-lumo-styles';
 import '@vaadin/form-layout/vaadin-form-item';
 import '@vaadin/form-layout';
 import '@vaadin/text-field';
@@ -18,95 +18,6 @@ export class DemoView extends LitElement {
   @property({ type: String }) clearCommand = 'Control+K';
   @property({ type: Number }) counter = 0;
   @query('#code-sample') codeSample?: HTMLElement;
-
-  static styles = [
-    typography,
-    spacing,
-    sizing,
-    css`
-      :host {
-        display: block;
-      }
-
-      #counter {
-        text-align: center;
-        font-family: 'Fira Code', monospace;
-        margin-bottom: calc(var(--lumo-space-l) * 3);
-        background-color: var(--lumo-shade-10pct);
-        padding: var(--lumo-space-m) 0;
-        font-size: var(--lumo-font-size-xl);
-        border: 1px solid transparent;
-        border-width: 1px 0;
-        cursor: pointer;
-      }
-
-      #counter:focus {
-        border-color: var(--lumo-primary-color-50pct);
-      }
-
-      #container {
-        margin: auto;
-        width: calc(var(--lumo-size-xl) * 8);
-      }
-
-      #help {
-        top: var(--lumo-space-m);
-        right: var(--lumo-space-m);
-      }
-
-      #docs {
-        top: var(--lumo-space-m);
-        left: var(--lumo-space-m);
-      }
-
-      vaadin-form-item::part(label) {
-        width: calc(var(--lumo-size-xl) * 3);
-      }
-
-      vaadin-text-field {
-        width: calc(var(--lumo-size-xl) * 5);
-      }
-
-      vaadin-form-layout {
-        margin: auto;
-      }
-
-      vaadin-button {
-        position: fixed;
-        cursor: pointer;
-        background: var(--lumo-tint-50pct);
-        border-radius: var(--lumo-border-radius-m);
-        padding: var(--lumo-space-s);
-      }
-
-      h2,
-      h3,
-      h4 {
-        font-family: 'Fira Code', monospace;
-      }
-
-      h2,
-      h4 {
-        text-align: center;
-      }
-
-      h4 {
-        margin-bottom: calc(var(--lumo-space-l) * 3);
-        font-size: var(--lumo-font-size-xs);
-      }
-
-      #code-sample {
-        font-size: var(--lumo-font-size-s);
-        margin: var(--lumo-space-xl) auto;
-        width: 100%;
-        max-width: calc(var(--lumo-size-xl) * 12);
-        padding: 0 var(--lumo-space-m);
-        border: 1px dashed;
-        overflow: auto;
-        border-radius: var(--lumo-border-radius-m);
-      }
-    `
-  ];
 
   private ksm?: KeyboardShortcutManager;
   private timeout?: number;
@@ -175,7 +86,7 @@ export class DemoView extends LitElement {
             {
               keyBinding: ${this.clearCommand},
               handler: () => {
-                this.shadowRoot.querySelectorAll('vaadin-text-field:not([disabled])').forEach((el: any) => {
+                .querySelectorAll('vaadin-text-field:not([disabled])').forEach((el: any) => {
                   el.value = '';
                   el.validate();
                 });
@@ -196,17 +107,17 @@ export class DemoView extends LitElement {
             },
             {
               keyBinding: 'Alt+F8',
-              handler: () => KeyboardShortcutUtils.focusNextInvalidField(this.shadowRoot),
+              handler: () => KeyboardShortcutUtils.focusNextInvalidField(),
               description: 'Next invalid field.'
             },
             {
               keyBinding: 'Alt+Shift+F8',
-              handler: () => KeyboardShortcutUtils.focusPreviousInvalidField(this.shadowRoot),
+              handler: () => KeyboardShortcutUtils.focusPreviousInvalidField(),
               description: 'Previous invalid field.'
             }
           ];
 
-          const ksm = new KeyboardShortcutManager({ shortcuts, root: this.shadowRoot, helpDialog: true });
+          const ksm = new KeyboardShortcutManager({ shortcuts, helpDialog: true });
 
           ksm.subscribe();
         </code>
@@ -215,12 +126,12 @@ export class DemoView extends LitElement {
   }
 
   firstUpdated() {
-    window.addEventListener('help-dialog', () => this.ksm.toggleHelpDialog());
+    window.addEventListener('help-dialog', () => this.ksm?.toggleHelpDialog());
   }
 
   setShortcuts() {
     if (this.ksm) this.ksm.unsubscribe();
-    this.ksm = new KeyboardShortcutManager({ root: this.shadowRoot, helpDialog: true });
+    this.ksm = new KeyboardShortcutManager({ helpDialog: true });
     this.ksm.add([
       {
         keyBinding: this.helpCommand,
@@ -228,13 +139,13 @@ export class DemoView extends LitElement {
         description: 'Opens the help dialog.'
       },
       {
-        scope: '#counter',
+        scope: 'counter',
         keyBinding: this.incrementCommand,
         handler: () => this.counter++,
         description: 'Increment the counter.'
       },
       {
-        scope: '#counter',
+        scope: 'counter',
         keyBinding: this.decrementCommand,
         handler: () => this.counter--,
         description: 'Decrement the counter.'
@@ -242,7 +153,7 @@ export class DemoView extends LitElement {
       {
         keyBinding: this.clearCommand,
         handler: () => {
-          this.shadowRoot.querySelectorAll('vaadin-text-field:not([disabled])').forEach((el: any) => {
+          document.body.querySelectorAll('vaadin-text-field:not([disabled])').forEach((el: any) => {
             el.value = '';
             el.validate();
           });
@@ -251,19 +162,19 @@ export class DemoView extends LitElement {
       },
       {
         keyBinding: 'Alt+F8',
-        handler: () => KeyboardShortcutUtils.focusNextInvalidField(this.shadowRoot),
+        handler: () => KeyboardShortcutUtils.focusNextInvalidField(),
         description: 'Next invalid field.'
       },
       {
         keyBinding: 'Alt+Shift+F8',
-        handler: () => KeyboardShortcutUtils.focusPreviousInvalidField(this.shadowRoot),
+        handler: () => KeyboardShortcutUtils.focusPreviousInvalidField(),
         description: 'Previous invalid field.'
       }
     ]);
     this.ksm.subscribe();
   }
 
-  private onHelp = () => this.ksm.toggleHelpDialog();
+  private onHelp = () => this.ksm?.toggleHelpDialog();
 
   private onDocs = () => (location.href = '/');
 
@@ -278,6 +189,10 @@ export class DemoView extends LitElement {
       this.timeout = window.setTimeout(() => this.setShortcuts(), 300);
     };
   };
+
+  protected createRenderRoot() {
+    return this;
+  }
 }
 
 type MappedDemoView = { [key in Command]: string };

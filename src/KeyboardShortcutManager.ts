@@ -1,6 +1,7 @@
 import { KeyBindingMap } from 'tinykeys';
 import { KeyboardShortcut, Scope } from './KeyboardShortcut';
 import { KeyboardShortcutDialog } from './vcf-keyboard-shortcut-dialog';
+import { querySelectorDeep } from 'query-selector-shadow-dom';
 import tinykeys from 'tinykeys';
 import './vcf-keyboard-shortcut-dialog';
 
@@ -10,7 +11,6 @@ export class KeyboardShortcutManager {
 
   private keyBindingMaps: Map<TargetElement, KeyBindingMap> = new Map();
   private unsubcribeHanlders: (() => void)[] = [];
-  private root: Document | ShadowRoot = document;
 
   constructor(options?: KeyboardShortcutManagerOptions) {
     if (options) {
@@ -18,11 +18,10 @@ export class KeyboardShortcutManager {
         this.shortcuts = options.shortcuts;
         this.createKeyBindingMaps(options.shortcuts);
       }
-      if (options.root) this.root = options.root;
       if (options.helpDialog) {
         this.helpDialog = document.createElement(KeyboardShortcutDialog.is) as KeyboardShortcutDialog;
         this.helpDialog.shortcuts = this.shortcuts;
-        this.root.appendChild(this.helpDialog);
+        document.body.appendChild(this.helpDialog);
       }
     }
   }
@@ -72,7 +71,7 @@ export class KeyboardShortcutManager {
   private parseScope(scope?: Scope): TargetElement {
     let scopeElement: TargetElement | null;
     if (typeof scope === 'string') {
-      scopeElement = this.root.querySelector(scope) as HTMLElement | null;
+      scopeElement = querySelectorDeep(`#${scope}`) as HTMLElement | null;
       if (!scopeElement) {
         console.warn(`Element with selector "${scope}" not found. Default window scope used.`);
         scopeElement = window;
@@ -149,10 +148,6 @@ export type KeyboardShortcutManagerOptions = {
    * Array of `KeyboardShortcut` definitions.
    */
   shortcuts?: KeyboardShortcut[];
-  /**
-   * Provide the root element for your view or app if child elements are nested in the Shadow DOM. This is used when parsing the `scope` property.
-   */
-  root?: Document | ShadowRoot;
   /**
    * Set true to add help dialog to page.
    */

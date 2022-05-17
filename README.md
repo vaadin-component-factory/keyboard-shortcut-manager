@@ -49,7 +49,6 @@ ksm.subscribe();
 Refer to the following links for more information on the keybinding syntax:
 
 - [Keys and Codes](https://github.com/jamiebuilds/tinykeys#commonly-used-keys-and-codes)
-
 - [Keybinding Syntax](https://github.com/jamiebuilds/tinykeys#keybinding-syntax)
 
 ## License

@@ -1,0 +1,85 @@
+body {
+  opacity: 1 !important;
+}
+
+demo-view {
+  display: block;
+}
+
+#counter {
+  text-align: center;
+  font-family: 'Fira Code', monospace;
+  margin-bottom: calc(var(--lumo-space-l) * 3);
+  background-color: var(--lumo-shade-10pct);
+  padding: var(--lumo-space-m) 0;
+  font-size: var(--lumo-font-size-xl);
+  border: 1px solid transparent;
+  border-width: 1px 0;
+  cursor: pointer;
+}
+
+#counter:focus {
+  border-color: var(--lumo-primary-color-50pct);
+}
+
+#container {
+  margin: auto;
+  width: calc(var(--lumo-size-xl) * 8);
+}
+
+#help {
+  top: var(--lumo-space-m);
+  right: var(--lumo-space-m);
+}
+
+#docs {
+  top: var(--lumo-space-m);
+  left: var(--lumo-space-m);
+}
+
+vaadin-form-item::part(label) {
+  width: calc(var(--lumo-size-xl) * 3);
+}
+
+vaadin-text-field {
+  width: calc(var(--lumo-size-xl) * 5);
+}
+
+vaadin-form-layout {
+  margin: auto;
+}
+
+vaadin-button {
+  position: fixed;
+  cursor: pointer;
+  background: var(--lumo-tint-50pct);
+  border-radius: var(--lumo-border-radius-m);
+  padding: var(--lumo-space-s);
+}
+
+h2,
+h3,
+h4 {
+  font-family: 'Fira Code', monospace;
+}
+
+h2,
+h4 {
+  text-align: center;
+}
+
+h4 {
+  margin-bottom: calc(var(--lumo-space-l) * 3);
+  font-size: var(--lumo-font-size-xs);
+}
+
+#code-sample {
+  font-size: var(--lumo-font-size-s);
+  margin: var(--lumo-space-xl) auto;
+  width: 100%;
+  max-width: calc(var(--lumo-size-xl) * 12);
+  padding: 0 var(--lumo-space-m);
+  border: 1px dashed;
+  overflow: auto;
+  border-radius: var(--lumo-border-radius-m);
+}

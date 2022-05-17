@@ -1,6 +1,6 @@
 {
   "name": "@vaadin-component-factory/keyboard-shortcut-manager",
-  "version": "1.0.7",
+  "version": "23.0.0",
   "main": "out-tsc/src/index.js",
   "module": "out-tsc/src/index.js",
   "types": "src/index.ts",
@@ -24,15 +24,16 @@
     "typescript"
   ],
   "scripts": {
-    "start": "tsc -w",
+    "start": "run-s demo",
     "clean": "rimraf docs out-tsc",
     "build": "run-s clean build:tcs build:docs demo:build",
     "build:tcs": "tsc",
     "build:docs": "typedoc",
     "demo": "run-s demo:build demo:dev",
-    "demo:build": "tsc && rollup -c rollup.config.js",
+    "demo:build": "run-s clean build:tcs demo:rollup",
     "demo:tsc-watch": "tsc -w",
-    "demo:rollup-watch": "rollup -c rollup.config.js -w",
+    "demo:rollup": "rollup -c rollup.config.js",
+    "demo:rollup-watch": "npm run demo:rollup -- -w",
     "demo:serve": "wds --app-index docs/index.html --node-resolve --open docs/demo/index.html --watch ",
     "demo:dev": "run-p demo:tsc-watch demo:rollup-watch demo:serve",
     "test": "jest --coverage",
@@ -52,13 +53,14 @@
     "@types/jest": "^27.0.0",
     "@types/node": "^16.6.0",
     "@types/prismjs": "^1.26.0",
+    "@types/query-selector-shadow-dom": "^1.0.0",
     "@typescript-eslint/eslint-plugin": "^4.29.1",
     "@typescript-eslint/parser": "^4.29.1",
-    "@vaadin/form-layout": "^22.0.4",
-    "@vaadin/icon": "^22.0.4",
-    "@vaadin/icons": "^22.0.4",
-    "@vaadin/text-field": "^22.0.4",
-    "@vaadin/vaadin-lumo-styles": "^22.0.4",
+    "@vaadin/form-layout": "23.0.10",
+    "@vaadin/icon": "23.0.10",
+    "@vaadin/icons": "23.0.10",
+    "@vaadin/text-field": "23.0.10",
+    "@vaadin/vaadin-lumo-styles": "23.0.10",
     "@web/dev-server": "^0.1.29",
     "@web/rollup-plugin-html": "^1.10.1",
     "@web/rollup-plugin-import-meta-assets": "^1.0.7",
@@ -91,8 +93,9 @@
     ]
   },
   "dependencies": {
-    "@vaadin-component-factory/vcf-enhanced-dialog": "22.0.6",
-    "@vaadin/grid": "^22.0.4",
+    "@vaadin-component-factory/vcf-enhanced-dialog": "23.0.0",
+    "@vaadin/grid": "23.0.10",
+    "query-selector-shadow-dom": "^1.0.0",
     "tinykeys": "^1.4.0"
   }
 }

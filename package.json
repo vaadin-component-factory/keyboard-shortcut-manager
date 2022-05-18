@@ -53,7 +53,6 @@
     "@types/jest": "^27.0.0",
     "@types/node": "^16.6.0",
     "@types/prismjs": "^1.26.0",
-    "@types/query-selector-shadow-dom": "^1.0.0",
     "@typescript-eslint/eslint-plugin": "^4.29.1",
     "@typescript-eslint/parser": "^4.29.1",
     "@vaadin/form-layout": "23.0.10",
@@ -93,6 +92,7 @@
     ]
   },
   "dependencies": {
+    "@types/query-selector-shadow-dom": "^1.0.0",
     "@vaadin-component-factory/vcf-enhanced-dialog": "23.0.0",
     "@vaadin/grid": "23.0.10",
     "query-selector-shadow-dom": "^1.0.0",

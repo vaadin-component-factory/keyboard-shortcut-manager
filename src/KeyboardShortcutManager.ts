@@ -69,15 +69,17 @@ export class KeyboardShortcutManager {
   }
 
   private parseScope(scope?: Scope): TargetElement {
-    let scopeElement: TargetElement | null;
-    if (typeof scope === 'string') {
-      scopeElement = querySelectorDeep(`#${scope}`) as HTMLElement | null;
-      if (!scopeElement) {
-        console.warn(`Element with selector "${scope}" not found. Default window scope used.`);
-        scopeElement = window;
+    let scopeElement: TargetElement | null = window;
+    if (scope) {
+      if (typeof scope === 'string') {
+        scopeElement = querySelectorDeep(`#${scope}`) as HTMLElement | null;
+        if (!scopeElement) {
+          console.warn(`Element with selector "${scope}" not found. Default window scope used.`);
+          scopeElement = window;
+        }
+      } else {
+        scopeElement = scope;
       }
-    } else {
-      scopeElement = scope ?? window;
     }
     return scopeElement;
   }

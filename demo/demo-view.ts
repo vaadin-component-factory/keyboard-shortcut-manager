@@ -29,7 +29,7 @@ export class DemoView extends LitElement {
       <h4>
         A modern library allowing you to manage keyboard shortcuts in a <a href="https://www.vaadin.com">Vaadin</a> application (or any framework).
       </h4>
-      <div id="counter" tabindex="-1"><b>Counter:</b> ${this.counter}</div>
+      <div id="counter"><b>Counter:</b> ${this.counter}</div>
       <div id="container">
         <h3>Key Bindings</h3>
         <vaadin-form-layout .responsiveSteps="${this.steps}">

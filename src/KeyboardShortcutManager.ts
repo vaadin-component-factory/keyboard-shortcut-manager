@@ -80,6 +80,10 @@ export class KeyboardShortcutManager {
       } else {
         scopeElement = scope;
       }
+      // Make sure scope element is focusable
+      if (scopeElement instanceof HTMLElement && !scopeElement.getAttribute('tabindex')) {
+        scopeElement.setAttribute('tabindex', '-1');
+      }
     }
     return scopeElement;
   }

@@ -1,7 +1,7 @@
 import { html, css, render } from 'lit';
 import { EnhancedDialog, EnhancedDialogOverlay } from '@vaadin-component-factory/vcf-enhanced-dialog';
 import { registerStyles } from '@vaadin/vaadin-themable-mixin/register-styles';
-import { KeyboardShortcut } from './KeyboardShortcut';
+import { KeyboardShortcut, Scope } from './KeyboardShortcut';
 import '@vaadin/grid';
 
 export class KeyboardShortcutDialog extends EnhancedDialog {
@@ -26,6 +26,7 @@ export class KeyboardShortcutDialog extends EnhancedDialog {
         <vaadin-grid id="shortcuts" .items="${this.items}" all-rows-visible>
           <vaadin-grid-column auto-width path="command"></vaadin-grid-column>
           <vaadin-grid-column auto-width path="keys"></vaadin-grid-column>
+          <vaadin-grid-column auto-width path="scope"></vaadin-grid-column>
         </vaadin-grid>
       `,
       root
@@ -36,10 +37,24 @@ export class KeyboardShortcutDialog extends EnhancedDialog {
     if (!this.shortcuts.length) {
       throw new Error('No shortcuts defined.');
     }
-    return this.shortcuts.map((s) => ({
-      command: s.description,
-      keys: s.keyBinding
-    }));
+    return this.shortcuts.map((s) => {
+      const item = {
+        command: s.description,
+        keys: s.keyBinding,
+        scope: this.getScopeName(s.scope)
+      };
+      return item;
+    });
+  }
+
+  private getScopeName(scope?: Scope) {
+    let name = 'Window';
+    if (scope && scope !== window) {
+      const el = scope as HTMLElement;
+      if (el.id) name = `#${el.id}`;
+      else name = `${el.tagName}${el.className ? `.${el.className}` : ''}`;
+    }
+    return name;
   }
 
   open() {

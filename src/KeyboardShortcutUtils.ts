@@ -15,9 +15,14 @@ export class KeyboardShortcutUtils {
   static querySelectorAllDeep = querySelectorAllDeep;
 
   /**
-   * Selector that returns input elements.
+   * Selector that returns input field elements.
    */
-  static InputFields = `input,select,textarea`;
+  static InputFields = 'input,select,textarea';
+
+  /**
+   * Selector that returns focusable elements.
+   */
+  static FocusableElements = `${KeyboardShortcutUtils.InputFields},a,button,area`;
 
   /**
    * Selector that returns vaadin input elements.

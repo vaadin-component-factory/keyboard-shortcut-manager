@@ -29,7 +29,7 @@ export class DemoView extends LitElement {
       <h4>
         A modern library allowing you to manage keyboard shortcuts in a <a href="https://www.vaadin.com">Vaadin</a> application (or any framework).
       </h4>
-      <div id="counter"><b>Counter:</b> ${this.counter}</div>
+      <div id="counter" title="click to focus"><b>Counter:</b> ${this.counter}</div>
       <div id="container">
         <h3>Key Bindings</h3>
         <vaadin-form-layout .responsiveSteps="${this.steps}">
@@ -65,63 +65,7 @@ export class DemoView extends LitElement {
           <vaadin-icon icon="vaadin:question-circle"></vaadin-icon>
         </vaadin-button>
       </div>
-      <!-- CODE SAMPLE -->
-      <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet" />
-      <pre id="code-sample">
-        <code>
-          import {
-            KeyboardShortcutManager,
-            KeyboardShortcutUtils,
-            KeyboardShortcut
-          } from '@vaadin-component-factory/keyboard-shortcut-manager';
-
-          window.addEventListener('help-dialog', () => ksm.toggleHelpDialog());
-
-          const shortcuts: KeyboardShortcut = [
-            {
-              keyBinding: ${this.helpCommand},
-              handler: 'help-dialog',
-              description: 'Opens the help dialog.'
-            },
-            {
-              keyBinding: ${this.clearCommand},
-              handler: () => {
-                .querySelectorAll('vaadin-text-field:not([disabled])').forEach((el: any) => {
-                  el.value = '';
-                  el.validate();
-                });
-              },
-              description: 'Clear editable text fields.'
-            },
-            {
-              scope: '#counter',
-              keyBinding: ${this.incrementCommand},
-              handler: () => this.counter++,
-              description: 'Increment the counter.'
-            },
-            {
-              scope: '#counter',
-              keyBinding: ${this.decrementCommand},
-              handler: () => this.counter--,
-              description: 'Decrement the counter.'
-            },
-            {
-              keyBinding: 'Alt+F8',
-              handler: () => KeyboardShortcutUtils.focusNextInvalidField(),
-              description: 'Next invalid field.'
-            },
-            {
-              keyBinding: 'Alt+Shift+F8',
-              handler: () => KeyboardShortcutUtils.focusPreviousInvalidField(),
-              description: 'Previous invalid field.'
-            }
-          ];
-
-          const ksm = new KeyboardShortcutManager({ shortcuts, helpDialog: true });
-
-          ksm.subscribe();
-        </code>
-      </pre>
+      <h4>Change the text-field content to set the shortcut key bindings.</h4>
     `;
   }
 

@@ -8,7 +8,7 @@ demo-view {
 
 #counter {
   text-align: center;
-  font-family: 'Fira Code', monospace;
+  font-family: monospace;
   margin-bottom: calc(var(--lumo-space-l) * 3);
   background-color: var(--lumo-shade-10pct);
   padding: var(--lumo-space-m) 0;
@@ -60,7 +60,7 @@ vaadin-button {
 h2,
 h3,
 h4 {
-  font-family: 'Fira Code', monospace;
+  font-family: monospace;
 }
 
 h2,
@@ -69,8 +69,11 @@ h4 {
 }
 
 h4 {
-  margin-bottom: calc(var(--lumo-space-l) * 3);
+  margin: var(--lumo-space-xl) var(--lumo-space-l);
+  padding: var(--lumo-space-l);
   font-size: var(--lumo-font-size-xs);
+  font-weight: normal;
+  border-top: 1px solid var(--lumo-shade-10pct);
 }
 
 #code-sample {

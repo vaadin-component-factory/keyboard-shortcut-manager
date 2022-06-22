@@ -72,6 +72,14 @@ export class KeyboardShortcutUtils {
   }
 
   /**
+   * Returns all focusable elements on the page or within the `scope` element (even if nested in shadow dom).
+   * @param scope The root element in which we do the search.
+   */
+  static getFocusableElements(scope: Document | HTMLElement = document) {
+    return querySelectorAllDeep(KeyboardShortcutUtils.FocusableElements, scope);
+  }
+
+  /**
    * Returns all Vaadin input fields on the page or within the `scope` element (even if nested in shadow dom).
    * @param scope The root element in which we do the search.
    */

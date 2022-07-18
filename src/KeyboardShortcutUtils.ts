@@ -5,6 +5,14 @@ import { querySelectorAllDeep, querySelectorDeep } from 'query-selector-shadow-d
  */
 export class KeyboardShortcutUtils {
   /**
+   * Platform Independent Modifier.
+   * - Mac = `Meta` (⌘)
+   * - Windows/Linux = `Control`
+   * @see https://github.com/jamiebuilds/tinykeys#keybinding-syntax
+   */
+  static PI_MOD = 'MOD';
+
+  /**
    * Finds first matching elements on the page that may be in a shadow root.
    */
   static querySelectorDeep = querySelectorDeep;

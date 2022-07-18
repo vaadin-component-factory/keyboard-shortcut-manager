@@ -2,10 +2,14 @@ import { KeyBindingMap } from 'tinykeys';
 import { KeyboardShortcut, Scope } from './KeyboardShortcut';
 import { KeyboardShortcutDialog } from './vcf-keyboard-shortcut-dialog';
 import { querySelectorDeep } from 'query-selector-shadow-dom';
+import { render, TemplateResult } from 'lit';
+import { DialogRenderer } from '@vaadin/dialog';
+import { KeyboardShortcutUtils } from './KeyboardShortcutUtils';
 import tinykeys from 'tinykeys';
 import './vcf-keyboard-shortcut-dialog';
 
 export class KeyboardShortcutManager {
+  static TINY_KEYS_MODIFIER = '$mod';
   shortcuts: KeyboardShortcut[] = [];
   helpDialog?: KeyboardShortcutDialog;
 
@@ -24,6 +28,10 @@ export class KeyboardShortcutManager {
         document.body.appendChild(this.helpDialog);
       }
     }
+  }
+
+  get helpDialogContent() {
+    return ((this.helpDialog?.overlay as any).$.content as HTMLElement | undefined) ?? null;
   }
 
   add(shortcuts: KeyboardShortcut[]) {
@@ -68,6 +76,26 @@ export class KeyboardShortcutManager {
     if (dialog) dialog.opened = !dialog.opened;
   }
 
+  setHelpDialogContent(content: DialogContent = '') {
+    if (this.helpDialog) this.helpDialog.renderer = this.createDialogRenderer(content);
+  }
+
+  setHelpDialogHeader(content: DialogContent = '') {
+    if (this.helpDialog) this.helpDialog.headerRenderer = this.createDialogRenderer(content);
+  }
+
+  setHelpDialogFooter(content: DialogContent = '') {
+    if (this.helpDialog) this.helpDialog.footerRenderer = this.createDialogRenderer(content);
+  }
+
+  private createDialogRenderer(content: DialogContent = '') {
+    return ((root: HTMLElement) => {
+      root.removeAttribute('with-backdrop');
+      if (typeof content === 'string') root.innerText = content;
+      else render(content, root);
+    }) as DialogRenderer;
+  }
+
   private parseScope(scope?: Scope): TargetElement {
     let scopeElement: TargetElement | null = window;
     if (scope) {
@@ -100,6 +128,7 @@ export class KeyboardShortcutManager {
 
   private parseShortcuts(shortcuts: KeyboardShortcut[]) {
     return shortcuts.map((shortcut) => {
+      shortcut.keyBinding = this.parsePIModifier(shortcut.keyBinding);
       shortcut.scope = this.parseScope(shortcut.scope);
       if (Array.isArray(shortcut.keyBinding)) {
         shortcut.keyBinding = shortcut.keyBinding.map((k) => this.parseKeyBinding(k));
@@ -108,6 +137,18 @@ export class KeyboardShortcutManager {
       }
       return shortcut;
     });
+  }
+
+  private parsePIModifier(keyBinding: string | string[]) {
+    const { TINY_KEYS_MODIFIER } = KeyboardShortcutManager;
+    const { PI_MOD } = KeyboardShortcutUtils;
+    let parsedKeyBinding: string | string[];
+    if (Array.isArray(keyBinding)) {
+      parsedKeyBinding = keyBinding.map((binding) => binding.replace(PI_MOD, TINY_KEYS_MODIFIER));
+    } else {
+      parsedKeyBinding = keyBinding.replace(PI_MOD, TINY_KEYS_MODIFIER);
+    }
+    return parsedKeyBinding;
   }
 
   private createKeyBindingMaps(shortcuts: KeyboardShortcut[]) {
@@ -146,6 +187,8 @@ export class KeyboardShortcutManager {
     };
   }
 }
+
+export type DialogContent = TemplateResult | HTMLElement | string;
 
 export type TargetElement = Window | HTMLElement;
 

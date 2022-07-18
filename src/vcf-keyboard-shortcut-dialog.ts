@@ -2,6 +2,8 @@ import { html, css, render } from 'lit';
 import { Dialog, DialogOverlay } from '@vaadin/dialog';
 import { registerStyles } from '@vaadin/vaadin-themable-mixin/register-styles';
 import { KeyboardShortcut, Scope } from './KeyboardShortcut';
+import { KeyboardShortcutUtils } from './KeyboardShortcutUtils';
+import { KeyboardShortcutManager } from './KeyboardShortcutManager';
 import { Grid } from '@vaadin/grid';
 import '@vaadin/grid';
 
@@ -71,7 +73,38 @@ export class KeyboardShortcutDialog extends Dialog {
       `,
       root
     );
+    this.setPIModifierInfo(root);
   };
+
+  private setPIModifierInfo(root: HTMLElement) {
+    requestAnimationFrame(() => {
+      const { TINY_KEYS_MODIFIER } = KeyboardShortcutManager;
+      const { PI_MOD } = KeyboardShortcutUtils;
+      const content = root.querySelectorAll('vaadin-grid-cell-content');
+      const mods = Array.from(content).filter((i) => i.textContent?.includes(TINY_KEYS_MODIFIER)) as HTMLElement[];
+      mods.forEach((mod) => {
+        const text = document.createTextNode(mod.innerText.replace(TINY_KEYS_MODIFIER, ''));
+        const wrapper = document.createElement('a');
+        wrapper.href = 'https://github.com/jamiebuilds/tinykeys#keybinding-syntax';
+        wrapper.innerText = PI_MOD;
+        wrapper.setAttribute(
+          'title',
+          this.trim(`
+            Platform Indendent Modifier.
+            - Mac = Command
+            - Windows/Linux = Control
+          `)
+        );
+        mod.innerText = '';
+        mod.append(wrapper);
+        mod.append(text);
+      });
+    });
+  }
+
+  private trim(str: string) {
+    return str.trim().replace(/(  )+/g, '');
+  }
 
   private overlayHeaderRenderer = (root: any) => {
     render(html`<h3 id="header">${this.headerText}</h3>`, root);

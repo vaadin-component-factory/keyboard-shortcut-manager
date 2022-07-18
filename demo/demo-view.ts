@@ -15,7 +15,7 @@ export class DemoView extends LitElement {
   @property({ type: String }) helpCommand = 'Control+Shift+?';
   @property({ type: String }) incrementCommand = 'ArrowUp';
   @property({ type: String }) decrementCommand = 'ArrowDown';
-  @property({ type: String }) clearCommand = 'Control+K';
+  @property({ type: String }) clearCommand = `${KeyboardShortcutUtils.PI_MOD}+K`;
   @property({ type: Number }) counter = 0;
   @query('#code-sample') codeSample?: HTMLElement;
 

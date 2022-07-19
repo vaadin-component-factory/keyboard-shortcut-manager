@@ -5,11 +5,13 @@ import { querySelectorDeep } from 'query-selector-shadow-dom';
 import { render, TemplateResult } from 'lit';
 import { DialogRenderer } from '@vaadin/dialog';
 import { KeyboardShortcutUtils } from './KeyboardShortcutUtils';
-import { Key } from 'ts-key-enum';
+import { Key as KeyEnum } from 'ts-key-enum';
 import './vcf-keyboard-shortcut-dialog';
 
+const Key = { ...KeyEnum, of: (k: string) => k as KeyEnum } as Key;
+
 class KeyboardShortcutManager {
-  static TINY_KEYS_MODIFIER = '$mod';
+  static LIB_MODIFIER = '$mod';
   shortcuts: ParsedKeyboardShortcut[] = [];
   helpDialog?: KeyboardShortcutDialog;
 
@@ -159,13 +161,13 @@ class KeyboardShortcutManager {
   }
 
   private parsePIModifier(keyBinding: string | string[]) {
-    const { TINY_KEYS_MODIFIER } = KeyboardShortcutManager;
+    const { LIB_MODIFIER } = KeyboardShortcutManager;
     const { PI_MOD } = KeyboardShortcutUtils;
     let parsedKeyBinding: string | string[];
     if (Array.isArray(keyBinding)) {
-      parsedKeyBinding = keyBinding.map((binding) => binding.replace(PI_MOD, TINY_KEYS_MODIFIER));
+      parsedKeyBinding = keyBinding.map((binding) => binding.replace(PI_MOD, LIB_MODIFIER));
     } else {
-      parsedKeyBinding = keyBinding.replace(PI_MOD, TINY_KEYS_MODIFIER);
+      parsedKeyBinding = keyBinding.replace(PI_MOD, LIB_MODIFIER);
     }
     return parsedKeyBinding;
   }
@@ -205,6 +207,17 @@ class KeyboardShortcutManager {
     };
   }
 }
+
+/**
+ * An enum that includes all non-printable string values one can expect from $event.key.
+ * For example, this enum includes values like "CapsLock", "Backspace", and "AudioVolumeMute",
+ * but does not include values like "a", "A", "#", "é", or "¿".
+ * Auto generated from MDN: https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key/Key_Values#Speech_recognition_keys
+ */
+type Key = typeof KeyEnum & {
+  /** Return `Key` of string `str`. */
+  of: (str: string) => KeyEnum;
+};
 
 type ParsedKeyboardShortcut = KeyboardShortcut & { parsedKeyBinding: string | string[] };
 

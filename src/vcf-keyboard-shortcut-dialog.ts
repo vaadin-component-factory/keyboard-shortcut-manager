@@ -78,12 +78,12 @@ export class KeyboardShortcutDialog extends Dialog {
 
   private setPIModifierInfo(root: HTMLElement) {
     requestAnimationFrame(() => {
-      const { TINY_KEYS_MODIFIER } = KeyboardShortcutManager;
+      const { LIB_MODIFIER } = KeyboardShortcutManager;
       const { PI_MOD } = KeyboardShortcutUtils;
       const content = root.querySelectorAll('vaadin-grid-cell-content');
-      const mods = Array.from(content).filter((i) => i.textContent?.includes(TINY_KEYS_MODIFIER)) as HTMLElement[];
+      const mods = Array.from(content).filter((i) => i.textContent?.includes(LIB_MODIFIER)) as HTMLElement[];
       mods.forEach((mod) => {
-        const text = document.createTextNode(mod.innerText.replace(TINY_KEYS_MODIFIER, ''));
+        const text = document.createTextNode(mod.innerText.replace(LIB_MODIFIER, ''));
         const wrapper = document.createElement('a');
         wrapper.href = 'https://github.com/jamiebuilds/tinykeys#keybinding-syntax';
         wrapper.innerText = PI_MOD;

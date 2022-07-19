@@ -96,6 +96,7 @@
     "@vaadin/dialog": "^23.1.0",
     "@vaadin/grid": "^23.1.0",
     "query-selector-shadow-dom": "^1.0.0",
-    "tinykeys": "^1.4.0"
+    "tinykeys": "^1.4.0",
+    "ts-key-enum": "^2.0.11"
   }
 }

@@ -1,3 +1,5 @@
+import { KeyBinding } from './KeyboardShortcutManager';
+
 export interface KeyboardShortcut {
   /**
    * Target element for which this keyboard shortcut can be used when focused.
@@ -9,7 +11,7 @@ export interface KeyboardShortcut {
    * - [Keys and codes](https://github.com/jamiebuilds/tinykeys#commonly-used-keys-and-codes)
    * - [Key binding syntax](https://github.com/jamiebuilds/tinykeys#keybinding-syntax)
    */
-  keyBinding: string | string[];
+  keyBinding: KeyBinding;
   /**
    * Keyboard event handler.
    *

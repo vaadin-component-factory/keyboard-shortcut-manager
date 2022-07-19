@@ -3,12 +3,12 @@ import { Dialog, DialogOverlay } from '@vaadin/dialog';
 import { registerStyles } from '@vaadin/vaadin-themable-mixin/register-styles';
 import { KeyboardShortcut, Scope } from './KeyboardShortcut';
 import { KeyboardShortcutUtils } from './KeyboardShortcutUtils';
-import { KeyboardShortcutManager } from './KeyboardShortcutManager';
+import { KeyboardShortcutManager, ParsedKeyboardShortcut } from './KeyboardShortcutManager';
 import { Grid } from '@vaadin/grid';
 import '@vaadin/grid';
 
 export class KeyboardShortcutDialog extends Dialog {
-  shortcuts: KeyboardShortcut[] = [];
+  shortcuts: ParsedKeyboardShortcut[] = [];
 
   private static HEADER_ID = 'header';
   private static GRID_ID = 'shortcuts';
@@ -117,7 +117,7 @@ export class KeyboardShortcutDialog extends Dialog {
     return this.shortcuts.map((s) => {
       const item = {
         command: s.description,
-        keys: s.keyBinding,
+        keys: s.parsedKeyBinding,
         scope: this.getScopeName(s.scope)
       };
       return item;

@@ -1,6 +1,6 @@
 import { LitElement, html } from 'lit';
 import { customElement, property, query } from 'lit/decorators.js';
-import { KeyboardShortcutManager, KeyboardShortcutUtils } from '../src';
+import { KeyboardShortcutManager, KeyboardShortcutUtils, Key } from '../src';
 import { FormLayoutResponsiveStep } from '@vaadin/form-layout';
 import { TextField } from '@vaadin/text-field';
 import '@vaadin/vaadin-lumo-styles';
@@ -105,12 +105,12 @@ export class DemoView extends LitElement {
         description: 'Clear editable text fields.'
       },
       {
-        keyBinding: 'Alt+F8',
+        keyBinding: [Key.Alt, Key.F8],
         handler: () => KeyboardShortcutUtils.focusNextInvalidField(),
         description: 'Next invalid field.'
       },
       {
-        keyBinding: 'Alt+Shift+F8',
+        keyBinding: [Key.Alt, Key.Shift, Key.F8],
         handler: () => KeyboardShortcutUtils.focusPreviousInvalidField(),
         description: 'Previous invalid field.'
       }

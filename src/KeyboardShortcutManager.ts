@@ -1,16 +1,16 @@
-import { KeyBindingMap } from 'tinykeys';
+import tinykeys, { KeyBindingMap } from 'tinykeys';
 import { KeyboardShortcut, Scope } from './KeyboardShortcut';
 import { KeyboardShortcutDialog } from './vcf-keyboard-shortcut-dialog';
 import { querySelectorDeep } from 'query-selector-shadow-dom';
 import { render, TemplateResult } from 'lit';
 import { DialogRenderer } from '@vaadin/dialog';
 import { KeyboardShortcutUtils } from './KeyboardShortcutUtils';
-import tinykeys from 'tinykeys';
+import { Key } from 'ts-key-enum';
 import './vcf-keyboard-shortcut-dialog';
 
-export class KeyboardShortcutManager {
+class KeyboardShortcutManager {
   static TINY_KEYS_MODIFIER = '$mod';
-  shortcuts: KeyboardShortcut[] = [];
+  shortcuts: ParsedKeyboardShortcut[] = [];
   helpDialog?: KeyboardShortcutDialog;
 
   private keyBindingMaps: Map<TargetElement, KeyBindingMap> = new Map();
@@ -19,8 +19,8 @@ export class KeyboardShortcutManager {
   constructor(options?: KeyboardShortcutManagerOptions) {
     if (options) {
       if (options.shortcuts) {
-        this.shortcuts = options.shortcuts;
-        this.createKeyBindingMaps(options.shortcuts);
+        this.shortcuts = this.parseShortcuts(options.shortcuts);
+        this.createKeyBindingMaps(this.shortcuts);
       }
       if (options.helpDialog) {
         this.helpDialog = document.createElement(KeyboardShortcutDialog.is) as KeyboardShortcutDialog;
@@ -35,12 +35,14 @@ export class KeyboardShortcutManager {
   }
 
   add(shortcuts: KeyboardShortcut[]) {
-    shortcuts.forEach((shortcut) => {
+    const parsedShortcuts = this.parseShortcuts(shortcuts);
+    parsedShortcuts.forEach((shortcut) => {
+      const parsedKeyBinding = this.parseKeyBinding(shortcut.keyBinding);
       const handler = this.createEventHandler(shortcut);
       shortcut.scope = this.parseScope(shortcut.scope);
-      if (Array.isArray(shortcut.keyBinding)) {
+      if (Array.isArray(parsedKeyBinding)) {
         const scope = shortcut.scope;
-        shortcut.keyBinding.forEach((keyBinding) => {
+        parsedKeyBinding.forEach((keyBinding) => {
           if (this.keyBindingMaps.has(scope)) {
             const keyBindingMap = this.keyBindingMaps.get(scope) as KeyBindingMap;
             keyBindingMap[keyBinding] = handler;
@@ -51,13 +53,13 @@ export class KeyboardShortcutManager {
       } else {
         if (this.keyBindingMaps.has(shortcut.scope)) {
           const keyBindingMap = this.keyBindingMaps.get(shortcut.scope) as KeyBindingMap;
-          keyBindingMap[shortcut.keyBinding] = handler;
+          keyBindingMap[parsedKeyBinding] = handler;
         } else {
-          this.keyBindingMaps.set(shortcut.scope, { [shortcut.keyBinding]: handler });
+          this.keyBindingMaps.set(shortcut.scope, { [parsedKeyBinding]: handler });
         }
       }
     });
-    this.shortcuts = this.shortcuts.concat(shortcuts);
+    this.shortcuts = this.shortcuts.concat(parsedShortcuts);
     if (this.helpDialog) this.helpDialog.shortcuts = this.shortcuts;
     this.createKeyBindingMaps(this.shortcuts);
   }
@@ -116,27 +118,44 @@ export class KeyboardShortcutManager {
     return scopeElement;
   }
 
-  private parseKeyBinding(keyBinding: string) {
-    if (keyBinding.includes(' ')) {
-      console.warn(
-        `"${keyBinding}" | This keybinding contains spaces which are used for keybindings with sequential button presses.
-        Refer to keybinding syntax for more information: https://github.com/jamiebuilds/tinykeys#keybinding-syntax`.trim()
-      );
-    }
-    return keyBinding;
-  }
-
   private parseShortcuts(shortcuts: KeyboardShortcut[]) {
     return shortcuts.map((shortcut) => {
-      shortcut.keyBinding = this.parsePIModifier(shortcut.keyBinding);
-      shortcut.scope = this.parseScope(shortcut.scope);
-      if (Array.isArray(shortcut.keyBinding)) {
-        shortcut.keyBinding = shortcut.keyBinding.map((k) => this.parseKeyBinding(k));
-      } else {
-        shortcut.keyBinding = this.parseKeyBinding(shortcut.keyBinding);
+      const parsedShortcut: ParsedKeyboardShortcut = {
+        ...shortcut,
+        scope: this.parseScope(shortcut.scope),
+        parsedKeyBinding: this.parseKeyBinding(shortcut.keyBinding)
+      };
+      if (parsedShortcut.parsedKeyBinding.includes(' ')) {
+        console.warn(
+          `"${shortcut.keyBinding}" | This keybinding contains spaces which are used for keybindings with sequential button presses.
+          Refer to keybinding syntax for more information: https://github.com/jamiebuilds/tinykeys#keybinding-syntax`.trim()
+        );
       }
-      return shortcut;
-    });
+      return parsedShortcut;
+    }) as ParsedKeyboardShortcut[];
+  }
+
+  private parseKeyBinding(keyBinding: string | string[] | Key[] | Key[][]) {
+    let parsedKeyBinding: string | string[] = '';
+    if (Array.isArray(keyBinding)) {
+      const first = keyBinding[0];
+      if (Array.isArray(first)) {
+        const kbs = keyBinding as Key[][];
+        parsedKeyBinding = kbs.map((kb) => kb.join('+'));
+      } else if (this.isKey(first)) {
+        const kb = keyBinding as Key[];
+        parsedKeyBinding = kb.join('+');
+      } else {
+        parsedKeyBinding = keyBinding as string[];
+      }
+    } else {
+      parsedKeyBinding = keyBinding as string;
+    }
+    return this.parsePIModifier(parsedKeyBinding);
+  }
+
+  private isKey(key: any) {
+    return Object.values(Key).includes(key);
   }
 
   private parsePIModifier(keyBinding: string | string[]) {
@@ -151,18 +170,17 @@ export class KeyboardShortcutManager {
     return parsedKeyBinding;
   }
 
-  private createKeyBindingMaps(shortcuts: KeyboardShortcut[]) {
-    const parsedShortcuts = this.parseShortcuts(shortcuts);
-    const scopes = new Set<TargetElement>(parsedShortcuts.map((s) => s.scope as TargetElement));
+  private createKeyBindingMaps(shortcuts: ParsedKeyboardShortcut[]) {
+    const scopes = new Set<TargetElement>(shortcuts.map((s) => s.scope as TargetElement));
     Array.from(scopes.values()).forEach((scope) => {
       const keyBindingMap: KeyBindingMap = {};
-      parsedShortcuts
+      shortcuts
         .filter((s) => s.scope === scope)
         .forEach((s) => {
-          if (Array.isArray(s.keyBinding)) {
-            s.keyBinding.forEach((k) => (keyBindingMap[this.parseKeyBinding(k)] = this.createEventHandler(s)));
+          if (Array.isArray(s.parsedKeyBinding)) {
+            s.parsedKeyBinding.forEach((k) => (keyBindingMap[k] = this.createEventHandler(s)));
           } else {
-            keyBindingMap[this.parseKeyBinding(s.keyBinding)] = this.createEventHandler(s);
+            keyBindingMap[s.parsedKeyBinding] = this.createEventHandler(s);
           }
         });
       this.keyBindingMaps.set(scope, keyBindingMap);
@@ -188,11 +206,9 @@ export class KeyboardShortcutManager {
   }
 }
 
-export type DialogContent = TemplateResult | HTMLElement | string;
+type ParsedKeyboardShortcut = KeyboardShortcut & { parsedKeyBinding: string | string[] };
 
-export type TargetElement = Window | HTMLElement;
-
-export type KeyboardShortcutManagerOptions = {
+type KeyboardShortcutManagerOptions = {
   /**
    * Array of `KeyboardShortcut` definitions.
    */
@@ -202,3 +218,11 @@ export type KeyboardShortcutManagerOptions = {
    */
   helpDialog?: Boolean;
 };
+
+type KeyBinding = string | string[] | Key[] | Key[][];
+
+type TargetElement = Window | HTMLElement;
+
+type DialogContent = TemplateResult | HTMLElement | string;
+
+export { Key, KeyboardShortcutManager, KeyboardShortcutManagerOptions, ParsedKeyboardShortcut, KeyBinding, TargetElement, DialogContent };

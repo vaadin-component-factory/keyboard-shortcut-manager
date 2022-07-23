@@ -125,7 +125,8 @@ class KeyboardShortcutManager {
       const parsedShortcut: ParsedKeyboardShortcut = {
         ...shortcut,
         scope: this.parseScope(shortcut.scope),
-        parsedKeyBinding: this.parseKeyBinding(shortcut.keyBinding)
+        parsedKeyBinding: this.parseKeyBinding(shortcut.keyBinding),
+        preventDefault: shortcut.preventDefault ?? true
       };
       if (parsedShortcut.parsedKeyBinding.includes(' ')) {
         console.warn(
@@ -191,8 +192,10 @@ class KeyboardShortcutManager {
 
   private createEventHandler(shortcut: KeyboardShortcut) {
     return (e: KeyboardEvent) => {
-      e.preventDefault();
-      e.stopPropagation();
+      if (shortcut.preventDefault) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
       if (typeof shortcut.handler === 'function') {
         shortcut.handler(e);
       } else if (typeof shortcut.handler === 'string') {

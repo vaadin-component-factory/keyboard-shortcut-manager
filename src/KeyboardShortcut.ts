@@ -28,6 +28,10 @@ export interface KeyboardShortcut {
    * Description of keyboard shortcut.
    */
   description?: string;
+  /**
+   * If `true` the handler will automatically prevent default key behavior (default is `true`).
+   */
+  preventDefault?: boolean;
 }
 
 export type Scope = Window | HTMLElement | string;

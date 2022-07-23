@@ -116,6 +116,7 @@ export class DemoView extends LitElement {
       }
     ]);
     this.ksm.subscribe();
+    debugger;
   }
 
   private onHelp = () => this.ksm?.toggleHelpDialog();

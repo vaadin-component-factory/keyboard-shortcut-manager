@@ -12,14 +12,14 @@ export default {
     chunkFileNames: '[hash].js',
     assetFileNames: '[hash][extname]',
     format: 'es',
-    dir: 'docs/demo'
+    dir: 'dist'
   },
   preserveEntrySignatures: false,
   plugins: [
     copy({
       targets: [
         { src: 'out-tsc', dest: 'docs' },
-        { src: 'demo/index.html', dest: 'docs/demo' },
+        { src: 'demo/index.html', dest: 'dist' },
         { src: 'node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js', dest: 'docs/node_modules/@webcomponents/webcomponentsjs' }
       ]
     }),

@@ -116,12 +116,11 @@ export class DemoView extends LitElement {
       }
     ]);
     this.ksm.subscribe();
-    debugger;
   }
 
   private onHelp = () => this.ksm?.toggleHelpDialog();
 
-  private onDocs = () => (location.href = '/');
+  private onDocs = () => (location.href = '/docs/index.html');
 
   private onInput = (command: Command) => {
     return (e: Event) => {

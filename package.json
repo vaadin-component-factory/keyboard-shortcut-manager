@@ -34,7 +34,7 @@
     "demo:tsc-watch": "tsc -w",
     "demo:rollup": "rollup -c rollup.config.js",
     "demo:rollup-watch": "npm run demo:rollup -- -w",
-    "demo:serve": "wds --app-index docs/index.html --node-resolve --open docs/demo/index.html --watch ",
+    "demo:serve": "wds --app-index dist/index.html --node-resolve --open dist/index.html --watch ",
     "demo:dev": "run-p demo:tsc-watch demo:rollup-watch demo:serve",
     "test": "jest --coverage",
     "test:ci": "cross-env CI=1 jest",

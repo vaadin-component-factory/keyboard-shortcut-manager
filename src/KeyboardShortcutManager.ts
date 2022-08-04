@@ -5,10 +5,9 @@ import { querySelectorDeep } from 'query-selector-shadow-dom';
 import { render, TemplateResult } from 'lit';
 import { DialogRenderer } from '@vaadin/dialog';
 import { KeyboardShortcutUtils } from './KeyboardShortcutUtils';
-import { Key as KeyEnum } from 'ts-key-enum';
+import { Key } from 'ts-key-enum';
+import { Symbol } from './Symbol.enum';
 import './vcf-keyboard-shortcut-dialog';
-
-const Key = { ...KeyEnum, of: (k: string) => k as KeyEnum } as Key;
 
 class KeyboardShortcutManager {
   static LIB_MODIFIER = '$mod';
@@ -138,15 +137,15 @@ class KeyboardShortcutManager {
     }) as ParsedKeyboardShortcut[];
   }
 
-  private parseKeyBinding(keyBinding: string | string[] | Key[] | Key[][]) {
+  private parseKeyBinding(keyBinding: KeyBinding | KeyBinding[]) {
     let parsedKeyBinding: string | string[] = '';
     if (Array.isArray(keyBinding)) {
       const first = keyBinding[0];
       if (Array.isArray(first)) {
-        const kbs = keyBinding as Key[][];
+        const kbs = keyBinding as KeyOrSymbol[][];
         parsedKeyBinding = kbs.map((kb) => kb.join('+'));
       } else if (this.isKey(first)) {
-        const kb = keyBinding as Key[];
+        const kb = keyBinding as KeyOrSymbol[];
         parsedKeyBinding = kb.join('+');
       } else {
         parsedKeyBinding = keyBinding as string[];
@@ -158,7 +157,7 @@ class KeyboardShortcutManager {
   }
 
   private isKey(key: any) {
-    return Object.values(Key).includes(key);
+    return Object.values(Key).includes(key) || (key as string).length === 1;
   }
 
   private parsePIModifier(keyBinding: string | string[]) {
@@ -211,18 +210,17 @@ class KeyboardShortcutManager {
   }
 }
 
-/**
- * An enum that includes all non-printable string values one can expect from $event.key.
- * For example, this enum includes values like "CapsLock", "Backspace", and "AudioVolumeMute",
- * but does not include values like "a", "A", "#", "é", or "¿".
- * Auto generated from MDN: https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key/Key_Values#Speech_recognition_keys
- */
-type Key = typeof KeyEnum & {
-  /** Return `Key` of string `str`. */
-  of: (str: string) => KeyEnum;
-};
+const KeyOrSymbol = { ...Key, ...Symbol };
 
-type ParsedKeyboardShortcut = KeyboardShortcut & { parsedKeyBinding: string | string[] };
+type KeyOrSymbol = Key | Symbol;
+
+type KeyBinding = string | KeyOrSymbol | KeyOrSymbol[];
+
+type TargetElement = Window | HTMLElement;
+
+type DialogContent = TemplateResult | HTMLElement | string;
+
+type ParsedKeyboardShortcut = KeyboardShortcut & { readonly parsedKeyBinding: string | string[] };
 
 type KeyboardShortcutManagerOptions = {
   /**
@@ -235,10 +233,14 @@ type KeyboardShortcutManagerOptions = {
   helpDialog?: Boolean;
 };
 
-type KeyBinding = string | string[] | Key[] | Key[][];
-
-type TargetElement = Window | HTMLElement;
-
-type DialogContent = TemplateResult | HTMLElement | string;
-
-export { Key, KeyboardShortcutManager, KeyboardShortcutManagerOptions, ParsedKeyboardShortcut, KeyBinding, TargetElement, DialogContent };
+export {
+  Key,
+  Symbol,
+  KeyOrSymbol,
+  KeyboardShortcutManager,
+  KeyboardShortcutManagerOptions,
+  ParsedKeyboardShortcut,
+  KeyBinding,
+  TargetElement,
+  DialogContent
+};

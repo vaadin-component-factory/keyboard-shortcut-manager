@@ -1,6 +1,6 @@
 import { LitElement, html } from 'lit';
 import { customElement, property, query } from 'lit/decorators.js';
-import { KeyboardShortcutManager, KeyboardShortcutUtils, Key } from '../src';
+import { KeyboardShortcutManager, KeyboardShortcutUtils, Key, Symbol, KeyBinding } from '../src';
 import { FormLayoutResponsiveStep } from '@vaadin/form-layout';
 import { TextField } from '@vaadin/text-field';
 import '@vaadin/vaadin-lumo-styles';
@@ -12,10 +12,10 @@ import '@vaadin/icon';
 
 @customElement('demo-view')
 export class DemoView extends LitElement {
-  @property({ type: String }) helpCommand = 'Control+Shift+?';
-  @property({ type: String }) incrementCommand = 'ArrowUp';
-  @property({ type: String }) decrementCommand = 'ArrowDown';
-  @property({ type: String }) clearCommand = `${KeyboardShortcutUtils.PI_MOD}+K`;
+  @property({ type: Array }) helpCommand: KeyBinding[] = [Key.Control, Key.Shift, Symbol.QuestionMark];
+  @property({ type: String }) incrementCommand: KeyBinding = 'ArrowUp';
+  @property({ type: String }) decrementCommand: KeyBinding = 'ArrowDown';
+  @property({ type: String }) clearCommand: KeyBinding = `${KeyboardShortcutUtils.PI_MOD}+K`;
   @property({ type: Number }) counter = 0;
   @query('#code-sample') codeSample?: HTMLElement;
 
@@ -35,19 +35,31 @@ export class DemoView extends LitElement {
         <vaadin-form-layout .responsiveSteps="${this.steps}">
           <vaadin-form-item>
             <label slot="label">Help Dialog</label>
-            <vaadin-text-field value="${this.helpCommand}" required @value-changed="${this.onInput(Command.help)}"></vaadin-text-field>
+            <vaadin-text-field
+              value="${JSON.stringify(this.helpCommand)}"
+              required
+              @value-changed="${this.onInput(Command.help)}"
+            ></vaadin-text-field>
           </vaadin-form-item>
           <vaadin-form-item>
             <label slot="label">Clear Editable Fields</label>
-            <vaadin-text-field value="${this.clearCommand}" required @value-changed="${this.onInput(Command.clear)}"></vaadin-text-field>
+            <vaadin-text-field value="${this.clearCommand as string}" required @value-changed="${this.onInput(Command.clear)}"></vaadin-text-field>
           </vaadin-form-item>
           <vaadin-form-item>
             <label slot="label">Increment Counter</label>
-            <vaadin-text-field value="${this.incrementCommand}" required @value-changed="${this.onInput(Command.increment)}"></vaadin-text-field>
+            <vaadin-text-field
+              value="${this.incrementCommand as string}"
+              required
+              @value-changed="${this.onInput(Command.increment)}"
+            ></vaadin-text-field>
           </vaadin-form-item>
           <vaadin-form-item>
             <label slot="label">Decrement Counter</label>
-            <vaadin-text-field value="${this.decrementCommand}" required @value-changed="${this.onInput(Command.decrement)}"></vaadin-text-field>
+            <vaadin-text-field
+              value="${this.decrementCommand as string}"
+              required
+              @value-changed="${this.onInput(Command.decrement)}"
+            ></vaadin-text-field>
           </vaadin-form-item>
           <vaadin-form-item>
             <label slot="label">Next Invalid Field</label>
@@ -120,13 +132,17 @@ export class DemoView extends LitElement {
 
   private onHelp = () => this.ksm?.toggleHelpDialog();
 
-  private onDocs = () => (location.href = '/docs/index.html');
+  private onDocs = () => (location.href = 'docs/index.html');
 
   private onInput = (command: Command) => {
     return (e: Event) => {
       const demo = this as MappedDemoView;
       const field = e.target as TextField;
       demo[command] = field.value;
+      try {
+        const parsed = JSON.parse(field.value);
+        demo[command] = parsed;
+      } catch (e) {}
       this.requestUpdate(command);
       /* Reset Shortcuts */
       window.clearTimeout(this.timeout);
@@ -139,7 +155,7 @@ export class DemoView extends LitElement {
   }
 }
 
-type MappedDemoView = { [key in Command]: string };
+type MappedDemoView = { [key in Command]: KeyBinding | KeyBinding[] };
 
 enum Command {
   help = 'helpCommand',

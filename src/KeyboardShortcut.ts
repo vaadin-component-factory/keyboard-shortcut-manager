@@ -7,11 +7,14 @@ export interface KeyboardShortcut {
    */
   scope?: Scope;
   /**
-   * Key binding code sequence.
+   * Key binding code sequence. Can be either a string containing the whole shortcut definition
+   * or an array of Keys/Symbols that represent all keys to be pressed (at the same time) for this shortcut.
+   *
+   * FYI: Keys in the array version are concatenated with the `+` symbol to form a string definition.
    * - [Keys and codes](https://github.com/jamiebuilds/tinykeys#commonly-used-keys-and-codes)
    * - [Key binding syntax](https://github.com/jamiebuilds/tinykeys#keybinding-syntax)
    */
-  keyBinding: KeyBinding;
+  keyBinding: KeyBinding | KeyBinding[];
   /**
    * Keyboard event handler.
    *

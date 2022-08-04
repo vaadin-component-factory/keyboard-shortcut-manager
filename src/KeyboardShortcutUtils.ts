@@ -1,18 +1,9 @@
 import { querySelectorAllDeep, querySelectorDeep } from 'query-selector-shadow-dom';
-import { Key } from 'ts-key-enum';
 
 /**
  * Predefined shortcuts and utilities.
  */
 export class KeyboardShortcutUtils {
-  /**
-   * Platform Independent Modifier.
-   * - Mac = `Meta` (⌘)
-   * - Windows/Linux = `Control`
-   * @see https://github.com/jamiebuilds/tinykeys#keybinding-syntax
-   */
-  static PI_MOD = 'MOD';
-
   /**
    * Finds first matching elements on the page that may be in a shadow root.
    */
@@ -64,9 +55,7 @@ export class KeyboardShortcutUtils {
     element.focus({ preventScroll: true });
     const result = KeyboardShortcutUtils.getActiveElement() === element;
     element.blur();
-    if (current) {
-      current.focus({ preventScroll: true });
-    }
+    if (current) current.focus({ preventScroll: true });
     element.removeEventListener('focus', protectEvent, true);
     element.removeEventListener('blur', protectEvent, true);
     return result;
@@ -120,6 +109,16 @@ export class KeyboardShortcutUtils {
     KeyboardShortcutUtils.focusInvalidField(scope, true);
   }
 
+  /**
+   * Makes provided elements focusable if they are not already by setting the `tabindex` attribute to `0`.
+   */
+  static setFocusable(elements: HTMLElement | HTMLElement[]): void {
+    if (Array.isArray(elements)) elements.forEach((element) => KeyboardShortcutUtils.setFocusable(element));
+    else if (!KeyboardShortcutUtils.isFocusable(elements)) {
+      elements.setAttribute('tabindex', '0');
+    }
+  }
+
   /***********
    * HELPERS *
    ***********/
@@ -157,85 +156,4 @@ export class KeyboardShortcutUtils {
       focusField?.focus();
     }
   }
-}
-
-enum SymbolKey {
-  Zero = '0',
-  ClosedParen = Zero,
-  One = '1',
-  ExclamationMark = One,
-  Two = '2',
-  AtSign = Two,
-  Three = '3',
-  PoundSign = Three,
-  Hash = PoundSign,
-  Four = '4',
-  DollarSign = Four,
-  Five = '5',
-  PercentSign = Five,
-  Six = '6',
-  Caret = Six,
-  Hat = Caret,
-  Seven = '7',
-  Ampersand = Seven,
-  Eight = '8',
-  Star = Eight,
-  Asterik = Star,
-  Nine = '9',
-  OpenParen = Nine,
-  A = 'a',
-  B = 'b',
-  C = 'c',
-  D = 'd',
-  E = 'e',
-  F = 'f',
-  G = 'g',
-  H = 'h',
-  I = 'i',
-  J = 'j',
-  K = 'k',
-  L = 'l',
-  M = 'm',
-  N = 'n',
-  O = 'o',
-  P = 'p',
-  Q = 'q',
-  R = 'r',
-  S = 's',
-  T = 't',
-  U = 'u',
-  V = 'v',
-  W = 'w',
-  X = 'x',
-  Y = 'y',
-  Z = 'z',
-  Numpad0 = 'Numpad0',
-  Numpad1 = 'Numpad1',
-  Numpad2 = 'Numpad2',
-  Numpad3 = 'Numpad3',
-  Numpad4 = 'Numpad4',
-  Numpad5 = 'Numpad5',
-  Numpad6 = 'Numpad6',
-  Numpad7 = 'Numpad7',
-  Numpad8 = 'Numpad8',
-  Numpad9 = 'Numpad9',
-  Multiply = 'NumpadMultiply',
-  Add = 'NumpadAdd',
-  Subtract = 'NumpadSubtract',
-  DecimalPoint = 'NumpadDecimal',
-  Divide = 'NumpadDivide',
-  SemiColon = ';',
-  Equals = '=',
-  Comma = ',',
-  Dash = '-',
-  Period = '.',
-  UnderScore = Dash,
-  PlusSign = Equals,
-  ForwardSlash = '/',
-  QuestionMark = ForwardSlash,
-  GraveAccent = '`',
-  Tilde = GraveAccent,
-  OpenBracket = '[',
-  ClosedBracket = ']',
-  Quote = "'"
 }

@@ -6,6 +6,10 @@ demo-view {
   display: block;
 }
 
+#header {
+  margin-top: var(--lumo-space-l);
+}
+
 #counter {
   text-align: center;
   font-family: monospace;
@@ -13,13 +17,12 @@ demo-view {
   background-color: var(--lumo-shade-10pct);
   padding: var(--lumo-space-m) 0;
   font-size: var(--lumo-font-size-xl);
-  border: 1px solid transparent;
   border-width: 1px 0;
   cursor: pointer;
 }
 
 #counter:focus {
-  border-color: var(--lumo-primary-color-50pct);
+  outline: 2px solid var(--lumo-primary-color-50pct);
 }
 
 #container {

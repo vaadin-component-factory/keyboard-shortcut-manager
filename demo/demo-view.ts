@@ -1,6 +1,6 @@
 import { LitElement, html } from 'lit';
 import { customElement, property, query } from 'lit/decorators.js';
-import { KeyboardShortcutManager, KeyboardShortcutUtils, Key, Symbol, KeyBinding } from '../src';
+import { KSM, KeyboardShortcutUtils, Key, KeyBinding } from '../src';
 import { FormLayoutResponsiveStep } from '@vaadin/form-layout';
 import { TextField } from '@vaadin/text-field';
 import '@vaadin/vaadin-lumo-styles';
@@ -12,20 +12,20 @@ import '@vaadin/icon';
 
 @customElement('demo-view')
 export class DemoView extends LitElement {
-  @property({ type: Array }) helpCommand: KeyBinding[] = [Key.Control, Key.Shift, Symbol.QuestionMark];
-  @property({ type: String }) incrementCommand: KeyBinding = 'ArrowUp';
-  @property({ type: String }) decrementCommand: KeyBinding = 'ArrowDown';
-  @property({ type: String }) clearCommand: KeyBinding = `${KeyboardShortcutUtils.PI_MOD}+K`;
+  @property({ type: Array }) helpCommand: KeyBinding = [Key.Control, Key.Shift, Key.QuestionMark];
+  @property({ type: String }) incrementCommand: KeyBinding = Key.ArrowUp;
+  @property({ type: String }) decrementCommand: KeyBinding = Key.ArrowDown;
+  @property({ type: String }) clearCommand: KeyBinding = [Key.MOD, Key.K];
   @property({ type: Number }) counter = 0;
   @query('#code-sample') codeSample?: HTMLElement;
 
-  private ksm?: KeyboardShortcutManager;
+  private ksm?: KSM;
   private timeout?: number;
   private steps: FormLayoutResponsiveStep[] = [{ minWidth: 0, columns: 1 }];
 
   render() {
     return html`
-      <h2>VCF Keyboard Shortcut Manager</h2>
+      <h2 id="header">VCF Keyboard Shortcut Manager</h2>
       <h4>
         A modern library allowing you to manage keyboard shortcuts in a <a href="https://www.vaadin.com">Vaadin</a> application (or any framework).
       </h4>
@@ -35,11 +35,7 @@ export class DemoView extends LitElement {
         <vaadin-form-layout .responsiveSteps="${this.steps}">
           <vaadin-form-item>
             <label slot="label">Help Dialog</label>
-            <vaadin-text-field
-              value="${JSON.stringify(this.helpCommand)}"
-              required
-              @value-changed="${this.onInput(Command.help)}"
-            ></vaadin-text-field>
+            <vaadin-text-field value="${this.helpCommand as string}" required @value-changed="${this.onInput(Command.help)}"></vaadin-text-field>
           </vaadin-form-item>
           <vaadin-form-item>
             <label slot="label">Clear Editable Fields</label>
@@ -87,7 +83,7 @@ export class DemoView extends LitElement {
 
   setShortcuts() {
     if (this.ksm) this.ksm.unsubscribe();
-    this.ksm = new KeyboardShortcutManager({ helpDialog: true });
+    this.ksm = new KSM({ helpDialog: true });
     this.ksm.add([
       {
         keyBinding: this.helpCommand,
@@ -139,10 +135,6 @@ export class DemoView extends LitElement {
       const demo = this as MappedDemoView;
       const field = e.target as TextField;
       demo[command] = field.value;
-      try {
-        const parsed = JSON.parse(field.value);
-        demo[command] = parsed;
-      } catch (e) {}
       this.requestUpdate(command);
       /* Reset Shortcuts */
       window.clearTimeout(this.timeout);

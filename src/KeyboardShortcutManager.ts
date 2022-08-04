@@ -4,9 +4,9 @@ import { KeyboardShortcutDialog } from './vcf-keyboard-shortcut-dialog';
 import { querySelectorDeep } from 'query-selector-shadow-dom';
 import { render, TemplateResult } from 'lit';
 import { DialogRenderer } from '@vaadin/dialog';
-import { KeyboardShortcutUtils } from './KeyboardShortcutUtils';
 import { Key } from 'ts-key-enum';
 import { Symbol } from './Symbol.enum';
+import { KeyboardShortcutUtils } from './KeyboardShortcutUtils';
 import './vcf-keyboard-shortcut-dialog';
 
 class KeyboardShortcutManager {
@@ -112,8 +112,8 @@ class KeyboardShortcutManager {
         scopeElement = scope;
       }
       // Make sure scope element is focusable
-      if (scopeElement instanceof HTMLElement && !scopeElement.getAttribute('tabindex')) {
-        scopeElement.setAttribute('tabindex', '-1');
+      if (scopeElement instanceof HTMLElement) {
+        KeyboardShortcutUtils.setFocusable(scopeElement);
       }
     }
     return scopeElement;
@@ -162,12 +162,12 @@ class KeyboardShortcutManager {
 
   private parsePIModifier(keyBinding: string | string[]) {
     const { LIB_MODIFIER } = KeyboardShortcutManager;
-    const { PI_MOD } = KeyboardShortcutUtils;
+    const { MOD } = KeyOrSymbol;
     let parsedKeyBinding: string | string[];
     if (Array.isArray(keyBinding)) {
-      parsedKeyBinding = keyBinding.map((binding) => binding.replace(PI_MOD, LIB_MODIFIER));
+      parsedKeyBinding = keyBinding.map((binding) => binding.replace(MOD, LIB_MODIFIER));
     } else {
-      parsedKeyBinding = keyBinding.replace(PI_MOD, LIB_MODIFIER);
+      parsedKeyBinding = keyBinding.replace(MOD, LIB_MODIFIER);
     }
     return parsedKeyBinding;
   }
@@ -210,7 +210,17 @@ class KeyboardShortcutManager {
   }
 }
 
-const KeyOrSymbol = { ...Key, ...Symbol };
+const KeyOrSymbol = {
+  /**
+   * Platform Independent Modifier.
+   * - Mac = `Meta` (**⌘**)
+   * - Windows/Linux = `Control` (**^**)
+   * @see https://github.com/jamiebuilds/tinykeys#keybinding-syntax
+   */
+  MOD: 'MOD' as Key,
+  ...Key,
+  ...Symbol
+};
 
 type KeyOrSymbol = Key | Symbol;
 
@@ -234,10 +244,9 @@ type KeyboardShortcutManagerOptions = {
 };
 
 export {
-  Key,
-  Symbol,
-  KeyOrSymbol,
+  KeyOrSymbol as Key,
   KeyboardShortcutManager,
+  KeyboardShortcutManager as KSM,
   KeyboardShortcutManagerOptions,
   ParsedKeyboardShortcut,
   KeyBinding,

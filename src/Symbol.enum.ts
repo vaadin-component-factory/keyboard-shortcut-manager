@@ -1,7 +1,7 @@
 /**
  * An enum that includes all printable string values one can expect from `event.key`.
  */
-export declare enum Symbol {
+export enum Symbol {
   Zero = '0',
   ClosedParen = Zero,
   One = '1',

@@ -2,8 +2,7 @@ import { html, css, render } from 'lit';
 import { Dialog, DialogOverlay } from '@vaadin/dialog';
 import { registerStyles } from '@vaadin/vaadin-themable-mixin/register-styles';
 import { KeyboardShortcut, Scope } from './KeyboardShortcut';
-import { KeyboardShortcutUtils } from './KeyboardShortcutUtils';
-import { KeyboardShortcutManager, ParsedKeyboardShortcut } from './KeyboardShortcutManager';
+import { Key, KeyboardShortcutManager, ParsedKeyboardShortcut } from './KeyboardShortcutManager';
 import { Grid } from '@vaadin/grid';
 import '@vaadin/grid';
 
@@ -79,20 +78,19 @@ export class KeyboardShortcutDialog extends Dialog {
   private setPIModifierInfo(root: HTMLElement) {
     requestAnimationFrame(() => {
       const { LIB_MODIFIER } = KeyboardShortcutManager;
-      const { PI_MOD } = KeyboardShortcutUtils;
       const content = root.querySelectorAll('vaadin-grid-cell-content');
       const mods = Array.from(content).filter((i) => i.textContent?.includes(LIB_MODIFIER)) as HTMLElement[];
       mods.forEach((mod) => {
         const text = document.createTextNode(mod.innerText.replace(LIB_MODIFIER, ''));
         const wrapper = document.createElement('a');
         wrapper.href = 'https://github.com/jamiebuilds/tinykeys#keybinding-syntax';
-        wrapper.innerText = PI_MOD;
+        wrapper.innerText = Key.MOD;
         wrapper.setAttribute(
           'title',
           this.trim(`
             Platform Indendent Modifier.
-            - Mac = Command
-            - Windows/Linux = Control
+            - Mac (⌘) = Command
+            - Windows/Linux (^) = Control
           `)
         );
         mod.innerText = '';

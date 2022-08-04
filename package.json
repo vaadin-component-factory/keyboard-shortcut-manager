@@ -25,7 +25,7 @@
   ],
   "scripts": {
     "start": "run-s demo",
-    "clean": "rimraf docs out-tsc",
+    "clean": "rimraf dist out-tsc",
     "build": "run-s clean build:tcs build:docs demo:build",
     "build:tcs": "tsc",
     "build:docs": "typedoc",

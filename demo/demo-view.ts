@@ -35,11 +35,19 @@ export class DemoView extends LitElement {
         <vaadin-form-layout .responsiveSteps="${this.steps}">
           <vaadin-form-item>
             <label slot="label">Help Dialog</label>
-            <vaadin-text-field value="${this.helpCommand as string}" required @value-changed="${this.onInput(Command.help)}"></vaadin-text-field>
+            <vaadin-text-field
+              value="${(this.helpCommand as Key[]).join('+')}"
+              required
+              @value-changed="${this.onInput(Command.help)}"
+            ></vaadin-text-field>
           </vaadin-form-item>
           <vaadin-form-item>
             <label slot="label">Clear Editable Fields</label>
-            <vaadin-text-field value="${this.clearCommand as string}" required @value-changed="${this.onInput(Command.clear)}"></vaadin-text-field>
+            <vaadin-text-field
+              value="${(this.clearCommand as Key[]).join('+')}"
+              required
+              @value-changed="${this.onInput(Command.clear)}"
+            ></vaadin-text-field>
           </vaadin-form-item>
           <vaadin-form-item>
             <label slot="label">Increment Counter</label>

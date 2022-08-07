@@ -18,6 +18,7 @@ export class DemoView extends LitElement {
   @property({ type: String }) clearCommand: KeyBinding = [Key.MOD, Key.K];
   @property({ type: Number }) counter = 0;
   @query('#code-sample') codeSample?: HTMLElement;
+  @query('#counter') counterElement?: HTMLElement;
 
   private ksm?: KSM;
   private timeout?: number;
@@ -36,7 +37,7 @@ export class DemoView extends LitElement {
           <vaadin-form-item>
             <label slot="label">Help Dialog</label>
             <vaadin-text-field
-              value="${(this.helpCommand as Key[]).join('+')}"
+              value="${this.parseCommand(this.helpCommand)}"
               required
               @value-changed="${this.onInput(Command.help)}"
             ></vaadin-text-field>
@@ -44,7 +45,7 @@ export class DemoView extends LitElement {
           <vaadin-form-item>
             <label slot="label">Clear Editable Fields</label>
             <vaadin-text-field
-              value="${(this.clearCommand as Key[]).join('+')}"
+              value="${this.parseCommand(this.clearCommand)}"
               required
               @value-changed="${this.onInput(Command.clear)}"
             ></vaadin-text-field>
@@ -52,7 +53,7 @@ export class DemoView extends LitElement {
           <vaadin-form-item>
             <label slot="label">Increment Counter</label>
             <vaadin-text-field
-              value="${this.incrementCommand as string}"
+              value="${this.parseCommand(this.incrementCommand)}"
               required
               @value-changed="${this.onInput(Command.increment)}"
             ></vaadin-text-field>
@@ -60,7 +61,7 @@ export class DemoView extends LitElement {
           <vaadin-form-item>
             <label slot="label">Decrement Counter</label>
             <vaadin-text-field
-              value="${this.decrementCommand as string}"
+              value="${this.parseCommand(this.decrementCommand)}"
               required
               @value-changed="${this.onInput(Command.decrement)}"
             ></vaadin-text-field>
@@ -87,6 +88,8 @@ export class DemoView extends LitElement {
 
   firstUpdated() {
     window.addEventListener('help-dialog', () => this.ksm?.toggleHelpDialog());
+    this.counterElement?.addEventListener('increment', () => this.counter++);
+    this.counterElement?.addEventListener('decrement', () => this.counter--);
   }
 
   setShortcuts() {
@@ -101,13 +104,13 @@ export class DemoView extends LitElement {
       {
         scope: 'counter',
         keyBinding: this.incrementCommand,
-        handler: () => this.counter++,
+        handler: 'increment',
         description: 'Increment the counter.'
       },
       {
         scope: 'counter',
         keyBinding: this.decrementCommand,
-        handler: () => this.counter--,
+        handler: 'decrement',
         description: 'Decrement the counter.'
       },
       {
@@ -142,7 +145,11 @@ export class DemoView extends LitElement {
     return (e: Event) => {
       const demo = this as MappedDemoView;
       const field = e.target as TextField;
-      demo[command] = field.value;
+      try {
+        demo[command] = JSON.parse(field.value);
+      } catch (e) {
+        demo[command] = field.value;
+      }
       this.requestUpdate(command);
       /* Reset Shortcuts */
       window.clearTimeout(this.timeout);
@@ -152,6 +159,10 @@ export class DemoView extends LitElement {
 
   protected createRenderRoot() {
     return this;
+  }
+
+  private parseCommand(kb: KeyBinding) {
+    return Array.isArray(kb) ? JSON.stringify(kb) : kb;
   }
 }
 

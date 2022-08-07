@@ -157,7 +157,7 @@ class KeyboardShortcutManager {
   }
 
   private isKey(key: any) {
-    return Object.values(Key).includes(key) || (key as string).length === 1;
+    return Object.values(KeyOrSymbol).includes(key) || (key as string).length === 1;
   }
 
   private parsePIModifier(keyBinding: string | string[]) {

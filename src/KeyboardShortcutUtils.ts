@@ -28,19 +28,19 @@ export class KeyboardShortcutUtils {
    * Selector that returns vaadin input elements.
    */
   static VaadinInputFields = `
-       vaadin-checkbox
-       vaadin-combo-box,
-       vaadin-date-picker,
-       vaadin-date-time-picker,
-       vaadin-email-field,
-       vaadin-number-field,
-       vaadin-password-field,
-       vaadin-radio-button,
-       vaadin-select,
-       vaadin-text-area,
-       vaadin-text-field,
-       vaadin-time-picker
-     `
+    vaadin-checkbox
+    vaadin-combo-box,
+    vaadin-date-picker,
+    vaadin-date-time-picker,
+    vaadin-email-field,
+    vaadin-number-field,
+    vaadin-password-field,
+    vaadin-radio-button,
+    vaadin-select,
+    vaadin-text-area,
+    vaadin-text-field,
+    vaadin-time-picker
+  `
     .trim()
     .replace(/\s+/, '');
 

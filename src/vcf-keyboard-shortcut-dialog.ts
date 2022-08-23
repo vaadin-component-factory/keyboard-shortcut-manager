@@ -24,8 +24,12 @@ export class KeyboardShortcutDialog extends Dialog {
     super();
     this.setGlobalStyles();
     this.draggable = true;
+    this.resizable = true;
     this.renderer = this.overlayRenderer;
     this.headerRenderer = this.overlayHeaderRenderer;
+    this.addEventListener('opened-changed', () => {
+      (this as any).$.overlay.id = 'vcf-keyboard-shortcut-dialog-overlay';
+    });
   }
 
   static get is() {
@@ -81,21 +85,7 @@ export class KeyboardShortcutDialog extends Dialog {
       const content = root.querySelectorAll('vaadin-grid-cell-content');
       const mods = Array.from(content).filter((i) => i.textContent?.includes(LIB_MODIFIER)) as HTMLElement[];
       mods.forEach((mod) => {
-        const text = document.createTextNode(mod.innerText.replace(LIB_MODIFIER, ''));
-        const wrapper = document.createElement('a');
-        wrapper.href = 'https://github.com/jamiebuilds/tinykeys#keybinding-syntax';
-        wrapper.innerText = Key.MOD;
-        wrapper.setAttribute(
-          'title',
-          this.trim(`
-            Platform Indendent Modifier.
-            - Mac (⌘) = Command
-            - Windows/Linux (^) = Control
-          `)
-        );
-        mod.innerText = '';
-        mod.append(wrapper);
-        mod.append(text);
+        mod.innerText = mod.innerText.replace(LIB_MODIFIER, 'Command/Control');
       });
     });
   }
@@ -134,7 +124,7 @@ export class KeyboardShortcutDialog extends Dialog {
 
   private setGlobalStyles() {
     const styles = css`
-      vaadin-dialog-overlay #header {
+      #vcf-keyboard-shortcut-dialog-overlay #header {
         margin: 0;
       }
     `;
@@ -152,17 +142,16 @@ customElements.define(KeyboardShortcutDialog.is, KeyboardShortcutDialog);
 registerStyles(
   'vaadin-dialog-overlay',
   css`
-    [part='overlay'] {
+    :host(#vcf-keyboard-shortcut-dialog-overlay) [part='overlay'] {
       position: absolute;
       top: var(--lumo-space-m);
       right: var(--lumo-space-m);
       bottom: unset;
       left: unset;
       min-width: 500px;
-      max-width: 800px;
     }
 
-    [part='header'] {
+    :host(#vcf-keyboard-shortcut-dialog-overlay) [part='header'] {
       padding: var(--lumo-space-l);
     }
   `
@@ -175,8 +164,7 @@ registerStyles(
       font-size: var(--lumo-font-size-s);
     }
 
-    [part~='header-cell'] ::slotted(vaadin-grid-cell-content) {
-      font-size: var(--lumo-font-size-m);
+    :host(#shortcuts) [part~='header-cell'] ::slotted(vaadin-grid-cell-content) {
       font-weight: bold;
     }
   `

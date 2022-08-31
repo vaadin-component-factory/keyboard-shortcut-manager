@@ -190,15 +190,14 @@ class KeyboardShortcutManager {
   }
 
   private createEventHandler(shortcut: KeyboardShortcut) {
+    const scopeElement = this.parseScope(shortcut.scope);
     return (e: KeyboardEvent) => {
       if (shortcut.preventDefault) {
         e.preventDefault();
         e.stopPropagation();
       }
-      if (typeof shortcut.handler === 'function') {
-        shortcut.handler(e);
-      } else if (typeof shortcut.handler === 'string') {
-        const scopeElement = this.parseScope(shortcut.scope);
+      if (typeof shortcut.handler === 'function') shortcut.handler(e);
+      else if (typeof shortcut.handler === 'string') {
         const eventInit: CustomEventInit = {};
         eventInit.detail = shortcut.eventDetail ?? {};
         eventInit.detail.originalEvent = e;

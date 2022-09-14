@@ -22,7 +22,7 @@ export class KeyboardShortcutUtils {
   /**
    * Selector that returns focusable elements.
    */
-  static FocusableElements = `${KeyboardShortcutUtils.InputFields},a,button,area`;
+  static FocusableElements = `[tabindex],${KeyboardShortcutUtils.InputFields},a,button,area`;
 
   /**
    * Selector that returns vaadin input elements.

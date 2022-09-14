@@ -2,7 +2,7 @@ import { html, css, render } from 'lit';
 import { Dialog, DialogOverlay } from '@vaadin/dialog';
 import { registerStyles } from '@vaadin/vaadin-themable-mixin/register-styles';
 import { KeyboardShortcut, Scope } from './KeyboardShortcut';
-import { Key, KeyboardShortcutManager, ParsedKeyboardShortcut } from './KeyboardShortcutManager';
+import { KeyboardShortcutManager, ParsedKeyboardShortcut } from './KeyboardShortcutManager';
 import { Grid } from '@vaadin/grid';
 import '@vaadin/grid';
 
@@ -88,10 +88,6 @@ export class KeyboardShortcutDialog extends Dialog {
         mod.innerText = mod.innerText.replace(LIB_MODIFIER, 'Command/Control');
       });
     });
-  }
-
-  private trim(str: string) {
-    return str.trim().replace(/(  )+/g, '');
   }
 
   private overlayHeaderRenderer = (root: any) => {

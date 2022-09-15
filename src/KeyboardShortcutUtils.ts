@@ -133,7 +133,7 @@ export class KeyboardShortcutUtils {
       return null;
     }
     if (activeEl.shadowRoot) {
-      return KeyboardShortcutUtils.getActiveElementDeep(activeEl.shadowRoot);
+      return KeyboardShortcutUtils.getActiveElementDeep(activeEl.shadowRoot) || activeEl;
     } else {
       return activeEl;
     }

@@ -102,13 +102,13 @@ export class DemoView extends LitElement {
         description: 'Opens the help dialog.'
       },
       {
-        scope: 'counter',
+        scope: '#counter',
         keyBinding: this.incrementCommand,
         handler: 'increment',
         description: 'Increment the counter.'
       },
       {
-        scope: 'counter',
+        scope: '#counter',
         keyBinding: this.decrementCommand,
         handler: 'decrement',
         description: 'Decrement the counter.'

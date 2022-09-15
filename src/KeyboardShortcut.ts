@@ -3,7 +3,7 @@ import { KeyBinding } from './KeyboardShortcutManager';
 export interface KeyboardShortcut {
   /**
    * Target element for which this keyboard shortcut can be used when focused.
-   * If a string is passed this should be the target elements id. The default scope is `Window`.
+   * If a string is passed this should be a CSS selector targetting the desired element. The default scope is `Window`.
    */
   scope?: Scope;
   /**

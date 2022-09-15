@@ -103,7 +103,7 @@ class KeyboardShortcutManager {
     let scopeElement: TargetElement | null = window;
     if (scope) {
       if (typeof scope === 'string') {
-        scopeElement = querySelectorDeep(`#${scope}`) as HTMLElement | null;
+        scopeElement = querySelectorDeep(scope) as HTMLElement | null;
         if (!scopeElement) {
           console.warn(`Element with selector "${scope}" not found. Default window scope used.`);
           scopeElement = window;

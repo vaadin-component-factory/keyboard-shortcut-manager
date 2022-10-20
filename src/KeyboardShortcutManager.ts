@@ -4,7 +4,7 @@ import { KeyboardShortcutDialog } from './vcf-keyboard-shortcut-dialog';
 import { querySelectorDeep } from 'query-selector-shadow-dom';
 import { render, TemplateResult } from 'lit';
 import { DialogRenderer } from '@vaadin/dialog';
-import { Key } from 'ts-key-enum';
+import { Key } from './Key.enum';
 import { Symbol } from './Symbol.enum';
 import { KeyboardShortcutUtils } from './KeyboardShortcutUtils';
 import './vcf-keyboard-shortcut-dialog';

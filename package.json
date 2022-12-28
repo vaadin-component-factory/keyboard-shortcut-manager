@@ -1,6 +1,6 @@
 {
   "name": "@vaadin-component-factory/keyboard-shortcut-manager",
-  "version": "23.2.1",
+  "version": "23.3.0",
   "main": "out-tsc/src/index.js",
   "module": "out-tsc/src/index.js",
   "types": "src/index.ts",
@@ -55,11 +55,11 @@
     "@types/prismjs": "^1.26.0",
     "@typescript-eslint/eslint-plugin": "^4.29.1",
     "@typescript-eslint/parser": "^4.29.1",
-    "@vaadin/form-layout": "^23.2.4",
-    "@vaadin/icon": "^23.2.4",
-    "@vaadin/icons": "^23.2.4",
-    "@vaadin/text-field": "^23.2.4",
-    "@vaadin/vaadin-lumo-styles": "^23.2.4",
+    "@vaadin/form-layout": "^23.3.1",
+    "@vaadin/icon": "^23.3.1",
+    "@vaadin/icons": "^23.3.1",
+    "@vaadin/text-field": "^23.3.1",
+    "@vaadin/vaadin-lumo-styles": "^23.3.1",
     "@web/dev-server": "^0.1.29",
     "@web/rollup-plugin-html": "^1.10.1",
     "@web/rollup-plugin-import-meta-assets": "^1.0.7",
@@ -93,8 +93,8 @@
   },
   "dependencies": {
     "@types/query-selector-shadow-dom": "^1.0.0",
-    "@vaadin/dialog": "^23.2.4",
-    "@vaadin/grid": "^23.2.4",
+    "@vaadin/dialog": "^23.3.1",
+    "@vaadin/grid": "^23.3.1",
     "query-selector-shadow-dom": "^1.0.0",
     "tinykeys": "^1.4.0"
   }

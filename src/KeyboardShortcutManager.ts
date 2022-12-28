@@ -242,13 +242,6 @@ type KeyboardShortcutManagerOptions = {
   helpDialog?: Boolean;
 };
 
-export {
-  KeyOrSymbol as Key,
-  KeyboardShortcutManager,
-  KeyboardShortcutManager as KSM,
-  KeyboardShortcutManagerOptions,
-  ParsedKeyboardShortcut,
-  KeyBinding,
-  TargetElement,
-  DialogContent
-};
+export { KeyOrSymbol as Key, KeyboardShortcutManager as KSM, KeyboardShortcutManager };
+
+export type { DialogContent, KeyBinding, KeyboardShortcutManagerOptions, ParsedKeyboardShortcut, TargetElement };

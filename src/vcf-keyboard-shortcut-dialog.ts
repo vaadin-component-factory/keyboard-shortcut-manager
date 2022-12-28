@@ -15,7 +15,7 @@ export class KeyboardShortcutDialog extends Dialog {
 
   static get properties() {
     return {
-      ...(Dialog as PrivateDialog).properties,
+      ...(Dialog as PrivateStaticDialog).properties,
       headerText: String
     };
   }
@@ -28,7 +28,8 @@ export class KeyboardShortcutDialog extends Dialog {
     this.renderer = this.overlayRenderer;
     this.headerRenderer = this.overlayHeaderRenderer;
     this.addEventListener('opened-changed', () => {
-      (this as any).$.overlay.id = 'vcf-keyboard-shortcut-dialog-overlay';
+      const id = 'vcf-keyboard-shortcut-dialog-overlay';
+      if (this.overlay && this.overlay.id !== id) this.overlay.id = id;
     });
   }
 
@@ -37,7 +38,7 @@ export class KeyboardShortcutDialog extends Dialog {
   }
 
   get overlay() {
-    return ((this as any)?.$?.overlay as DialogOverlay | undefined) ?? null;
+    return this.private.$?.overlay ?? null;
   }
 
   get header() {
@@ -62,6 +63,10 @@ export class KeyboardShortcutDialog extends Dialog {
       grid = this.overlay.querySelector(`#${KeyboardShortcutDialog.GRID_ID}`) as Grid<KeyboardShortcut> | null;
     }
     return grid;
+  }
+
+  private get private() {
+    return this as PrivateDialog;
   }
 
   private overlayRenderer = (root: any) => {
@@ -170,4 +175,5 @@ export { DialogOverlay as KeyboardShortcutOverlay };
 
 /* PRIVATE TYPES */
 
-type PrivateDialog = typeof Dialog & { readonly properties: any };
+type PrivateStaticDialog = typeof Dialog & { readonly properties: any };
+type PrivateDialog = Dialog & { $?: { overlay: DialogOverlay } };

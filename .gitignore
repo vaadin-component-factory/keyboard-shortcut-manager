@@ -138,3 +138,6 @@ demo/*.js.map
 out-tsc
 dist
 docs
+
+
+.idea

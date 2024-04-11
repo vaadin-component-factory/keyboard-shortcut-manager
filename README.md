@@ -59,7 +59,6 @@ npm login
 git commit -a -m "v${version}"
 npm version ${version}
 npm publish --registry https://registry.npmjs.org/
-npm publish --registry https://npm.pkg.github.com/vaadin-component-factory
 git reset HEAD~2
 git commit -a -m "v${version}"
 git push

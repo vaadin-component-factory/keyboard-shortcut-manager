@@ -1,3 +1,4 @@
+// @ts-ignore
 import { tinykeys, KeyBindingMap } from 'tinykeys';
 import { KeyboardShortcut, Scope } from './KeyboardShortcut';
 import { KeyboardShortcutDialog } from './vcf-keyboard-shortcut-dialog';

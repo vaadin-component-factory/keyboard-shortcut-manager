@@ -19,7 +19,7 @@ This is a wrapper for the [Tinykeys](https://github.com/jamiebuilds/tinykeys) li
 ## Install
 
 ```sh
-npm i @vaadin-component-factory/keyboard-chortcut-manager
+npm i @vaadin-component-factory/keyboard-shortcut-manager
 ```
 
 ## Usage
@@ -50,6 +50,21 @@ Refer to the following links for more information on the keybinding syntax:
 
 - [Keys and Codes](https://github.com/jamiebuilds/tinykeys#commonly-used-keys-and-codes)
 - [Keybinding Syntax](https://github.com/jamiebuilds/tinykeys#keybinding-syntax)
+
+## Publish the component to NPM
+
+```
+npm login
+
+git commit -a -m "v${version}"
+npm version ${version}
+npm publish --registry https://registry.npmjs.org/
+npm publish --registry https://npm.pkg.github.com/vaadin-component-factory
+git reset HEAD~2
+git commit -a -m "v${version}"
+git push
+git push origin v${version}
+```
 
 ## License
 

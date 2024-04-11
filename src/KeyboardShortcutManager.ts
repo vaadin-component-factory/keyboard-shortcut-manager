@@ -1,4 +1,4 @@
-import tinykeys, { KeyBindingMap } from 'tinykeys';
+import { tinykeys, KeyBindingMap } from 'tinykeys';
 import { KeyboardShortcut, Scope } from './KeyboardShortcut';
 import { KeyboardShortcutDialog } from './vcf-keyboard-shortcut-dialog';
 import { querySelectorDeep } from 'query-selector-shadow-dom';

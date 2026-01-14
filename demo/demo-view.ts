@@ -3,7 +3,6 @@ import { customElement, property, query } from 'lit/decorators.js';
 import { KSM, KeyboardShortcutUtils, Key, KeyBinding } from '../src';
 import { FormLayoutResponsiveStep } from '@vaadin/form-layout';
 import { TextField } from '@vaadin/text-field';
-import '@vaadin/vaadin-lumo-styles/';
 import '@vaadin/form-layout/vaadin-form-item';
 import '@vaadin/form-layout';
 import '@vaadin/text-field';

@@ -95,7 +95,6 @@
     "@types/query-selector-shadow-dom": "^1.0.0",
     "@vaadin/dialog": "^25.0.0",
     "@vaadin/grid": "^25.0.0",
-    "@vaadin/vaadin-lumo-styles": "^25.0.0",
     "query-selector-shadow-dom": "^1.0.0",
     "tinykeys": "^2.1.0"
   }

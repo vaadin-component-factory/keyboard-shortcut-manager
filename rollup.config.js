@@ -20,6 +20,7 @@ export default {
       targets: [
         { src: 'out-tsc', dest: 'docs' },
         { src: 'demo/index.html', dest: 'dist' },
+        { src: 'demo/demo-styles.css', dest: 'dist' },
         { src: 'node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js', dest: 'docs/node_modules/@webcomponents/webcomponentsjs' }
       ]
     }),
